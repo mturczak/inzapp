@@ -1,5 +1,5 @@
 .formclass {
-    background-color: #a892ee;
+    background-color: #92baee;
     padding: 1rem;
     margin: 2rem auto;
     width: 50rem;
@@ -17,7 +17,7 @@
     text-align: left;
   }
   
-  .new_reservation__control label {
+  .new-reservation__control label {
     font-weight: bold;
     margin-bottom: 0.5rem;
     display: block;
