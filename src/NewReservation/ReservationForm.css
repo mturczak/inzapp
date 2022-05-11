@@ -17,7 +17,7 @@
     text-align: left;
   }
   
-  .new-reservation__control label {
+  .new_reservation__control label {
     font-weight: bold;
     margin-bottom: 0.5rem;
     display: block;
