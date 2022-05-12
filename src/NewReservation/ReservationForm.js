@@ -1,31 +1,42 @@
 import React from "react";
-import "./ReservationForm.css"
+import "./ReservationForm.css";
+import Select from 'react-select'
 
-const ReservationForm = () => {
+
+let now = new Date();
+const todaysDate = now.getFullYear()+'-'+('0' + (now.getMonth()+1)).slice(-2) + '-'+now.getDate();
+
+
+const ReservationForm = (props) => {
   return (
-    <form className="formclass" >
-        <div className="new-reservation__controls">
-      
-      <div className="new-reservation__control">
-        <label>Stolik</label>
-        <input type="text" />
-      </div>
-      <div className="new-reservation__control">
-        <label>Ilość osób</label>
-        <input type="number" />
-      </div>
-      <div className="new-reservation__control">
-        <label>Data</label>
-        <input type="date" />
-      </div>
-      <div className="new-reservation__control">
-        <label>Godzina</label>
-        <input type="time" />
-      </div>
+    <form className="formclass">
+      <div className="new-reservation__controls">
+        <div className="new-reservation__control">
+          <label>Ilość osób</label>
+          <input type="number" />
+        </div>
+        <div className="new-reservation__control">
+          <label>Stolik</label>
+          <Select options={props.tables.filter(table  => table.isBusy   )} getOptionLabel={(option)=>option.id} />
+        </div>
+
+        <div className="new-reservation__control">
+          <label>Data</label>
+
+          <input type="date" min={todaysDate} max = "2022-07-15"/>
+        </div>
+        <div className="new-reservation__control">
+          <label>Godzina</label>
+          <input type="time" />
+        </div>
       </div>
       <div className="new-reservation__actions">
-        <button type="button">Anuluj</button>
-        <button type="submit">Zarezerwuj</button>
+        <button className="button" type="button">
+          Anuluj
+        </button>
+        <button className="button" type="submit">
+          Zarezerwuj
+        </button>
       </div>
     </form>
   );
