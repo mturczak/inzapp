@@ -17,7 +17,7 @@ const ReservationForm = (props) => {
         </div>
         <div className="new-reservation__control">
           <label>Stolik</label>
-          <Select options={props.tables.filter(table  => table.isBusy   )} getOptionLabel={(option)=>option.id} />
+          <Select className="new-reservation__control_select" options={props.tables.filter(table  => table.isBusy   )} getOptionLabel={(option)=>option.id} />
         </div>
 
         <div className="new-reservation__control">
@@ -32,10 +32,10 @@ const ReservationForm = (props) => {
       </div>
       <div className="new-reservation__actions">
         <button className="button" type="button">
-          Anuluj
+        Zarezerwuj
         </button>
         <button className="button" type="submit">
-          Zarezerwuj
+          Anuluj
         </button>
       </div>
     </form>
