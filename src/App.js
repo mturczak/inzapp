@@ -3,6 +3,7 @@ import "./App.css";
 import NavBar from "./NavBar/NavBar";
 import ReservationForm from "./NewReservation/ReservationForm";
 import ReservationPreview from "./NewReservation/ReservationPreviev";
+import { useState } from "react";
 
 
 
@@ -16,19 +17,38 @@ const example_tables = [
 ]
 
 const example_reservations = [
-  {id: 1, table_id: 1, reservation_date: '2022-07-10T15:00'},
-  {id: 2, table_id: 2, reservation_date: '2022-07-11T15:00'},
-  {id: 3, table_id: 3, reservation_date: '2022-07-12T15:00'}
+  {id: 1, table_id: 1, reservation_date: '2022-08-10' , reservation_time:'15:00'},
+  {id: 2, table_id: 2, reservation_date: '2022-08-11', reservation_time:'16:00'},
+  {id: 3, table_id: 3, reservation_date: '2022-08-12', reservation_time:'17:00'}
 
 ]
 
-const App = () => {
+const App = (props) => {
+  const [reservations, setReservations] = useState (example_reservations);
+  const addReservationHandler = (reservation) => {
+    setReservations((prevReservations) => {
+      console.log([...prevReservations, reservation]);
+      return ([...prevReservations, reservation]);
+      
+    });
+  };
+  const onSaveReservationDataHandler = (enterReservationData) => {
+    const reservationData = {
+      ...enterReservationData,
+      id:Math.random().toString()
+    }
+    
+    props.onAddReservation(reservationData);
+    
+  }
+
+ 
   return (
     <div className="App">
       <header className="App-header">inzapp</header>
       <NavBar />
-      <ReservationForm tables={example_tables} />
-      <ReservationPreview records={example_reservations} />
+      <ReservationForm records={reservations} tables={example_tables} onSaveReservationData ={onSaveReservationDataHandler} onSaveReservation={addReservationHandler} />
+      <ReservationPreview records={reservations} />
     </ div>
   );
 };

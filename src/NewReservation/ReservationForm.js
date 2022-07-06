@@ -1,40 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ReservationForm.css";
-import Select from 'react-select'
-
+import Select from "react-select";
 
 let now = new Date();
-const todaysDate = now.getFullYear()+'-'+('0' + (now.getMonth()+1)).slice(-2) + '-'+now.getDate();
-
+const todaysDate =
+  now.getFullYear() +
+  "-" +
+  ("0" + (now.getMonth() + 1)).slice(-2) +
+  "-" +
+  now.getDate();
 
 const ReservationForm = (props) => {
+  const [enteredSize, setEnteredSize] = useState("");
+  const [enteredTable, setEnteredTable] = useState("");
+  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredTime, setEnteredTime] = useState("");
+
+  let ids_reservations = props.records.map(value => value.id)
+  let max_id_reservations = Math.max(...ids_reservations);
+
+  const sizeChangeHandler = (event) => {
+    setEnteredSize(event.target.value);
+    console.log(enteredSize);
+  };
+  const tableChangeHandler = (event) => {
+    setEnteredTable(event.id);
+    console.log(enteredTable);
+  };
+  const dateChangeHandler = (event) => {
+    setEnteredDate(event.target.value);
+  };
+  const timeChangeHandler = (event) => {
+    setEnteredTime(event.target.value);
+  };
+  const test_button = () => {
+    console.log(enteredSize);
+    console.log(enteredTable);
+    console.log(enteredDate);
+    console.log(enteredTime);
+    console.log(props.records)
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const reservationData = {
+      // id:  Math.floor(Math.random() * 1001).toString(),
+      id:   ++ max_id_reservations,
+      size: enteredSize,
+      table_id: enteredTable,
+      reservation_date:enteredDate,
+      reservation_time: enteredTime,
+    };
+
+    props.onSaveReservation(reservationData);
+    setEnteredTable("");
+    setEnteredSize("");
+    setEnteredTime("");
+    setEnteredDate("");
+  };
+
   return (
-    <form className="formclass">
+    <form className="formclass" onSubmit={submitHandler}>
       <div className="new-reservation__controls">
         <div className="new-reservation__control">
           <label>Ilość osób</label>
-          <input type="number" />
+          <input
+            type="number"
+            value={enteredSize}
+            onChange={sizeChangeHandler}
+          />
         </div>
         <div className="new-reservation__control">
           <label>Stolik</label>
-          <Select className="new-reservation__control_select" options={props.tables.filter(table  => table.isBusy   )} getOptionLabel={(option)=>option.id} />
+          <Select
+            className="new-reservation__control_select"
+            value={enteredTable}
+            onChange={tableChangeHandler}
+            options={props.tables.filter((table) => table.isBusy)}
+            getOptionLabel={(option) => option.id}
+          />
         </div>
 
         <div className="new-reservation__control">
           <label>Data</label>
 
-          <input type="date" min={todaysDate} max = "2022-07-15"/>
+          <input
+            type="date"
+            min={todaysDate}
+            max="2022-07-15"
+            value={enteredDate}
+            onChange={dateChangeHandler}
+          />
         </div>
         <div className="new-reservation__control">
           <label>Godzina</label>
-          <input type="time" />
+          <input type="time" value={enteredTime} onChange={timeChangeHandler} />
         </div>
       </div>
       <div className="new-reservation__actions">
-        <button className="button" type="button">
-        Zarezerwuj
+        <button className="button" type="submit" onClick={test_button}>
+          Zarezerwuj
         </button>
-        <button className="button" type="submit">
+        <button className="button" onClick={test_button} type="button">
           Anuluj
         </button>
       </div>

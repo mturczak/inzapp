@@ -9,9 +9,11 @@ const ReservationPreview = (props) => {
         {props.records.map((records) => (
           <Reservation
             key={records.id}
+            size={records.size}
             reservation_id={records.id}
             table_id={records.table_id}
             reservation_date={records.reservation_date}
+            reservation_time={records.reservation_time}
           />
         ))}
       </ul>
