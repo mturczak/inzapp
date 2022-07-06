@@ -16,7 +16,7 @@ const ReservationForm = (props) => {
   const [enteredDate, setEnteredDate] = useState("");
   const [enteredTime, setEnteredTime] = useState("");
 
-  let ids_reservations = props.records.map(value => value.id)
+  let ids_reservations = props.records.map((value) => value.id);
   let max_id_reservations = Math.max(...ids_reservations);
 
   const sizeChangeHandler = (event) => {
@@ -34,21 +34,28 @@ const ReservationForm = (props) => {
     setEnteredTime(event.target.value);
   };
   const test_button = () => {
-    console.log(enteredSize);
-    console.log(enteredTable);
-    console.log(enteredDate);
-    console.log(enteredTime);
-    console.log(props.records)
+    // console.log(enteredSize);
+    // console.log(enteredTable);
+    // console.log(enteredDate);
+    // console.log(enteredTime);
+    console.log(props.records);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    if (
+      enteredSize === "" ||
+      enteredTable === "" ||
+      enteredDate === "" ||
+      enteredTime === ""
+    )
+      return console.log("nie dozwolone jest pozostawienie pustych pól");
     const reservationData = {
       // id:  Math.floor(Math.random() * 1001).toString(),
-      id:   ++ max_id_reservations,
+      id: ++max_id_reservations,
       size: enteredSize,
       table_id: enteredTable,
-      reservation_date:enteredDate,
+      reservation_date: enteredDate,
       reservation_time: enteredTime,
     };
 
