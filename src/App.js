@@ -17,9 +17,9 @@ const example_tables = [
 ]
 
 const example_reservations = [
-  {id: 1, table_id: 1, reservation_date: '2022-08-10' , reservation_time:'15:00'},
-  {id: 2, table_id: 2, reservation_date: '2022-08-11', reservation_time:'16:00'},
-  {id: 3, table_id: 3, reservation_date: '2022-08-12', reservation_time:'17:00'}
+  {id: 1, table_id: 1, size:1, reservation_date: '2022-08-10' , reservation_time:'15:00'},
+  {id: 2, table_id: 2, size:2, reservation_date: '2022-08-11', reservation_time:'16:00'},
+  {id: 3, table_id: 3, size:2, reservation_date: '2022-08-12', reservation_time:'17:00'}
 
 ]
 

@@ -3,12 +3,17 @@ import "./ReservationForm.css";
 import Select from "react-select";
 
 let now = new Date();
-const todaysDate =
-  now.getFullYear() +
+let todaysDate =
+  (now.getFullYear() +
   "-" +
   ("0" + (now.getMonth() + 1)).slice(-2) +
   "-" +
-  now.getDate();
+  ( "0" + now.getDate()).slice(-2)).toString();
+
+  let maxReservationDate = new Date( now.setMonth(now.getMonth() + 1)).toISOString().slice(0,10);
+  
+ 
+
 
 const ReservationForm = (props) => {
   const [enteredSize, setEnteredSize] = useState("");
@@ -39,6 +44,7 @@ const ReservationForm = (props) => {
     // console.log(enteredDate);
     // console.log(enteredTime);
     console.log(props.records);
+    console.log(maxReservationDate);
   };
 
   const submitHandler = (event) => {
@@ -73,6 +79,8 @@ const ReservationForm = (props) => {
           <label>Ilość osób</label>
           <input
             type="number"
+            min={1}
+            max={10}
             value={enteredSize}
             onChange={sizeChangeHandler}
           />
@@ -94,7 +102,7 @@ const ReservationForm = (props) => {
           <input
             type="date"
             min={todaysDate}
-            max="2022-07-15"
+            max={maxReservationDate}
             value={enteredDate}
             onChange={dateChangeHandler}
           />
