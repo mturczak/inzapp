@@ -1,35 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ReservationForm.css";
-import Select from "react-select";
+
+import TablesInSelect from "./TablesInSelect";
 
 let now = new Date();
-let todaysDate =
-  (now.getFullYear() +
+let todaysDate = (
+  now.getFullYear() +
   "-" +
   ("0" + (now.getMonth() + 1)).slice(-2) +
   "-" +
-  ( "0" + now.getDate()).slice(-2)).toString();
+  ("0" + now.getDate()).slice(-2)
+).toString();
 
-  let maxReservationDate = new Date( now.setMonth(now.getMonth() + 1)).toISOString().slice(0,10);
-  
- 
+let maxReservationDate = new Date(now.setMonth(now.getMonth() + 1))
+  .toISOString()
+  .slice(0, 10);
 
+// let sizeMatchedTables = [
+//   { id: 55, table_size: 1, isBusy: false },
+//   { id: 56, table_size: 2, isBusy: true },
+// ];
 
 const ReservationForm = (props) => {
   const [enteredSize, setEnteredSize] = useState("");
   const [enteredTable, setEnteredTable] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
   const [enteredTime, setEnteredTime] = useState("");
+  const [sizeMatchedTables, setSizeMatchedTables] = useState([
+    { id: 55, table_size: 1, isBusy: false },
+    { id: 56, table_size: 2, isBusy: true },
+  ]);
 
   let ids_reservations = props.records.map((value) => value.id);
   let max_id_reservations = Math.max(...ids_reservations);
 
-  const sizeChangeHandler = (event) => {
-    setEnteredSize(event.target.value);
-    console.log(enteredSize);
+  const matchingSizeTablesHandler = () => {
+    const newArray = props.tables.filter((tables) => {
+      if (tables.table_size >= enteredSize) {
+        return tables;
+      }
+    });
+    setSizeMatchedTables(newArray);
   };
+
+  const sizeChangeHandler = (event) => {
+    
+    setEnteredSize(event.target.value);
+    matchingSizeTablesHandler();
+    console.log(enteredSize);
+    console.log(sizeMatchedTables);
+    console.log(props.tables);
+  };
+  
+
   const tableChangeHandler = (event) => {
-    setEnteredTable(event.id);
+    setEnteredTable(event.target.value);
     console.log(enteredTable);
   };
   const dateChangeHandler = (event) => {
@@ -87,13 +112,20 @@ const ReservationForm = (props) => {
         </div>
         <div className="new-reservation__control">
           <label>Stolik</label>
-          <Select
+          {/* <Select
             className="new-reservation__control_select"
             value={enteredTable}
             onChange={tableChangeHandler}
             options={props.tables.filter((table) => table.isBusy)}
             getOptionLabel={(option) => option.id}
-          />
+          /> */}
+          <select
+            className="new-reservation__control"
+            value={enteredTable}
+            onChange={tableChangeHandler}
+          >
+            <TablesInSelect passedOptions={sizeMatchedTables} />
+          </select>
         </div>
 
         <div className="new-reservation__control">
