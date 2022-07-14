@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ReservationForm.css";
 
 import TablesInSelect from "./TablesInSelect";
@@ -16,42 +16,31 @@ let maxReservationDate = new Date(now.setMonth(now.getMonth() + 1))
   .toISOString()
   .slice(0, 10);
 
-// let sizeMatchedTables = [
-//   { id: 55, table_size: 1, isBusy: false },
-//   { id: 56, table_size: 2, isBusy: true },
-// ];
-
 const ReservationForm = (props) => {
   const [enteredSize, setEnteredSize] = useState("");
   const [enteredTable, setEnteredTable] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
   const [enteredTime, setEnteredTime] = useState("");
-  const [sizeMatchedTables, setSizeMatchedTables] = useState([
-    { id: 55, table_size: 1, isBusy: false },
-    { id: 56, table_size: 2, isBusy: true },
-  ]);
+  const [sizeMatchedTables, setSizeMatchedTables] = useState([]);
 
   let ids_reservations = props.records.map((value) => value.id);
   let max_id_reservations = Math.max(...ids_reservations);
 
-  const matchingSizeTablesHandler = () => {
-    const newArray = props.tables.filter((tables) => {
-      if (tables.table_size >= enteredSize) {
-        return tables;
+  const sizeChangeHandler = (event) => {
+    setEnteredSize(event.target.value);
+    matchingSizeTablesHandler(event.target.value);
+  };
+  const matchingSizeTablesHandler = (size) => {
+    const newArray = props.tables.reduce((newTables, tables) => {
+      if (tables.table_size >= size) {
+        var newValue = tables;
+        newTables.push(newValue);
       }
-    });
+      if (size === "") newTables = [];
+      return newTables;
+    }, []);
     setSizeMatchedTables(newArray);
   };
-
-  const sizeChangeHandler = (event) => {
-    
-    setEnteredSize(event.target.value);
-    matchingSizeTablesHandler();
-    console.log(enteredSize);
-    console.log(sizeMatchedTables);
-    console.log(props.tables);
-  };
-  
 
   const tableChangeHandler = (event) => {
     setEnteredTable(event.target.value);
@@ -82,7 +71,6 @@ const ReservationForm = (props) => {
     )
       return console.log("nie dozwolone jest pozostawienie pustych pól");
     const reservationData = {
-      // id:  Math.floor(Math.random() * 1001).toString(),
       id: ++max_id_reservations,
       size: enteredSize,
       table_id: enteredTable,
@@ -96,6 +84,13 @@ const ReservationForm = (props) => {
     setEnteredTime("");
     setEnteredDate("");
   };
+  let testOption = sizeMatchedTables.map((option, index) => {
+    return (
+      <option key={index} value={option.id}>
+        {option.id}
+      </option>
+    );
+  });
 
   return (
     <form className="formclass" onSubmit={submitHandler}>
