@@ -5,8 +5,8 @@ const TablesInSelect = (props) => {
     <>
       {props.passedOptions.map((option, index) => {
         return (
-          <option key={index} value={option.id}>
-            {option.id}
+          <option key={index} value={option.id_tables}>
+            {option.name}
           </option>
         );
       })}
