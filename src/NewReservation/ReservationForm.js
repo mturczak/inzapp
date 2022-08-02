@@ -34,7 +34,6 @@ const ReservationForm = (props) => {
         setHours(json);
       }
     };
-
     fetchHours();
   }, []);
 
@@ -112,6 +111,17 @@ const ReservationForm = (props) => {
   return (
     <form className="formclass" onSubmit={submitHandler}>
       <div className="new-reservation__controls">
+      <div className="new-reservation__control">
+          <label>Data</label>
+
+          <input
+            type="date"
+            min={todaysDate}
+            max={maxReservationDate}
+            value={enteredDate}
+            onChange={dateChangeHandler}
+          />
+        </div>
         <div className="new-reservation__control">
           <label>Ilość osób</label>
           <input
@@ -140,17 +150,7 @@ const ReservationForm = (props) => {
           </select>
         </div>
 
-        <div className="new-reservation__control">
-          <label>Data</label>
-
-          <input
-            type="date"
-            min={todaysDate}
-            max={maxReservationDate}
-            value={enteredDate}
-            onChange={dateChangeHandler}
-          />
-        </div>
+        
         <div className="new-reservation__control">
           <label>Godzina</label>
           <select
