@@ -30,6 +30,7 @@ class Client {
 
   static findByFilter(filter, value) {
     let sql = `SELECT * from clients where ${filter} = '${value}';`;
+    console.log(sql);
     return db.execute(sql);
   }
 

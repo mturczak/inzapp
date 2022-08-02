@@ -1,3 +1,4 @@
+const { dblClick } = require("@testing-library/user-event/dist/click");
 const db = require("../config/db");
 
 class Reservation {
@@ -35,6 +36,19 @@ class Reservation {
 
   static findAll() {
     let sql = "SELECT * from reservations ORDER BY id_reservation DESC;";
+    return db.execute(sql);
+  }
+
+  static findReserved(date, id_tables, id_hours) {
+    let temphours = parseInt(id_hours) - 1;
+    let sql = `SELECT * FROM reservations where date ='${date}' and id_tables = ${id_tables} and (id_hours = ${id_hours} OR id_hours = ${temphours} );`;
+    console.log(sql);
+    return db.execute(sql);
+  }
+
+  static findAllReservedFromDate(date) {
+    let sql = `SELECT date, id_tables, hours.name as time, hours.id_hours FROM inz_app.reservations left join hours on reservations.id_hours = hours.id_hours where  date ='${date}';`;
+    console.log(sql);
     return db.execute(sql);
   }
 }

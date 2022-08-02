@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Reservation from "./Reservation";
 
 const ReservationPreview = (props) => {
-  const [allReservations, setAllReservations] = useState(null);
+  
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -11,7 +11,7 @@ const ReservationPreview = (props) => {
       const json = await response.json();
       // console.log(json);
       if (response.ok) {
-        setAllReservations(json);
+        props.setAllReservations(json);
       }
     };
 
@@ -21,8 +21,8 @@ const ReservationPreview = (props) => {
     <div>
       <label>Podgląd Rezerwacji</label>
       <ul>
-        {allReservations &&
-          allReservations.map((reservation) => (
+        {props.allReservations &&
+          props.allReservations.map((reservation) => (
             <p key={reservation.id_reservation}>
               <strong>id: </strong>
               {reservation.id_reservation},<strong>Data:</strong>{" "}

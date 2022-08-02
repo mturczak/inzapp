@@ -26,6 +26,32 @@ const getReservationById = async (req, res, next) => {
   }
 };
 
+const getReservedReservations = async (req, res, next) => {
+  try {
+    let { date, id_tables, id_hours } = req.body;
+    let [reservations, _] = await Reservation.findReserved(date, id_tables, id_hours);
+
+    res.status(200).json({ reservations });
+    console.log("reserved reservations: ", reservations);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const getReservedReservationsByDate = async (req, res, next) => {
+  try {
+    let  date  = req.params.date;
+    let [reservations, _] = await Reservation.findAllReservedFromDate(date);
+
+    res.status(200).json({ reservations });
+    console.log("reserved reservations on date: " + date, reservations);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 
 
 const createNewReservation = async (req, res, next) => {
@@ -46,4 +72,6 @@ module.exports = {
   getAllReservations,
   createNewReservation,
   getReservationById,
+  getReservedReservations,
+  getReservedReservationsByDate
 };
