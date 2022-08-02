@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import NameInput from "./NameInput";
 import "./ReservationForm.css";
 
 import TablesInSelect from "./TablesInSelect";
@@ -18,9 +19,14 @@ let maxReservationDate = new Date(now.setMonth(now.getMonth() + 1))
 
 const ReservationForm = (props) => {
   const [enteredSize, setEnteredSize] = useState("");
-  const [enteredTable, setEnteredTable] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredTable, setEnteredTable] = useState("0");
+  const [enteredDate, setEnteredDate] = useState(todaysDate);
   const [enteredTime, setEnteredTime] = useState("");
+  const [enteredName, setEnteredName] = useState("");
+  const [enteredPhone, setEnteredPhone] = useState("");
+  const [enteredMail, setEnteredMail] = useState("");
+
+  const [enteredLocation, setEnteredLocation] = useState("każde");
   const [sizeMatchedTables, setSizeMatchedTables] = useState([]);
   const [hours, setHours] = useState([]);
 
@@ -29,11 +35,12 @@ const ReservationForm = (props) => {
       const response = await fetch("/reservation/hours");
       // console.log(response);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       if (response.ok) {
         setHours(json);
       }
     };
+    console.log(enteredDate);
     fetchHours();
   }, []);
 
@@ -42,18 +49,12 @@ const ReservationForm = (props) => {
 
   const sizeChangeHandler = (event) => {
     setEnteredSize(event.target.value);
-    console.log(props.tables);
+    // console.log(props.tables);
     matchingSizeTablesHandler(event.target.value);
   };
-  const matchingSizeTablesHandler = (temp_size) => {
-    const newArray = props.tables.reduce((newTables, tables) => {
-      if (tables.size >= temp_size) {
-        var newValue = tables;
-        newTables.push(newValue);
-      }
-      if (temp_size === "") newTables = [];
-      return newTables;
-    }, []);
+  const matchingSizeTablesHandler = async (temp_size) => {
+    const newArray = props.tables2.filter((x) => x.size >= temp_size);
+
     setSizeMatchedTables(newArray);
   };
 
@@ -63,9 +64,13 @@ const ReservationForm = (props) => {
   };
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
+    props.setDateToArray(event.target.value);
   };
   const timeChangeHandler = (event) => {
     setEnteredTime(event.target.value);
+  };
+  const locationChangeHandler = (event) => {
+    setEnteredLocation(event.target.value);
   };
   const test_button = () => {
     // console.log(enteredSize);
@@ -99,6 +104,7 @@ const ReservationForm = (props) => {
     setEnteredSize("");
     setEnteredTime("");
     setEnteredDate("");
+    setEnteredLocation("każde");
   };
   let testOption = sizeMatchedTables.map((option, index) => {
     return (
@@ -107,11 +113,19 @@ const ReservationForm = (props) => {
       </option>
     );
   });
+  // console.log(props.tables2);
 
+  if (props.tables2 && props.tables2[0] && props.tables2[0].freeHours) {
+    // console.log(props.tables2[2].freeHours);
+  }
+
+  // console.log(props.tables);
   return (
     <form className="formclass" onSubmit={submitHandler}>
       <div className="new-reservation__controls">
-      <div className="new-reservation__control">
+        <div className="new-reservation__control">
+            <NameInput enteredName={enteredName} enteredPhone={enteredPhone} enteredMail={enteredMail}
+                setEnteredName={setEnteredName} setEnteredPhone={setEnteredPhone} setEnteredMail={setEnteredMail}      />
           <label>Data</label>
 
           <input
@@ -132,6 +146,27 @@ const ReservationForm = (props) => {
             onChange={sizeChangeHandler}
           />
         </div>
+        {/* <div className="new-reservation__control">
+          <label>Położenie stolika</label>
+          <select
+            className="new-reservation__control"
+            value={enteredLocation}
+            onChange={locationChangeHandler}
+          >
+            {props.tables2 &&
+              props.tables2[0] &&
+              props.tables2[0].location &&
+              props.tables2.map((tables, index) => {
+                
+                  return (
+                    <option key={index} value={index}>
+                      {tables.location}
+                    </option>
+                  );
+              })}
+          </select>
+          
+        </div> */}
         <div className="new-reservation__control">
           <label>Stolik</label>
           {/* <Select
@@ -150,7 +185,6 @@ const ReservationForm = (props) => {
           </select>
         </div>
 
-        
         <div className="new-reservation__control">
           <label>Godzina</label>
           <select
@@ -158,13 +192,25 @@ const ReservationForm = (props) => {
             value={enteredTime}
             onChange={timeChangeHandler}
           >
-            {hours &&
+            {/* {hours &&
               hours.map((hour) => {
                 return (
                   <option key={hour.id_hours} value={hour.id_hours}>
                     {hour.name}
                   </option>
                 );
+              })} */}
+            {props.tables2 &&
+              props.tables2[0] &&
+              props.tables2[0].freeHours &&
+              enteredTable &&
+              props.tables2[enteredTable].freeHours.map((hour, index) => {
+                if (hour !== "busy")
+                  return (
+                    <option key={index} value={index}>
+                      {hour}
+                    </option>
+                  );
               })}
           </select>
           {/* <input type="time" value={enteredTime} onChange={timeChangeHandler} />s */}
