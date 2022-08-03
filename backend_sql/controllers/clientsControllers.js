@@ -43,13 +43,15 @@ const getClientByFilter = async (req, res, next) => {
     try {
       let { name, phone, email } = req.body;
       let client = new Client(name, phone, email);
-      await client.save();
-      console.log("client saved:", client);
+      data  = await client.save();
+      console.log("client saved:", data);
   
-      res.status(201).json({ mssg: "client saved", client });
+      res.status(201).json({ mssg: "client saved", data });
+      return data;
     } catch (error) {
       console.log(error);
       next(error);
+      return null;
     }
   };
 

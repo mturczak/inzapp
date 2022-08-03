@@ -22,9 +22,7 @@ const ReservationForm = (props) => {
   const [enteredTable, setEnteredTable] = useState("0");
   const [enteredDate, setEnteredDate] = useState(todaysDate);
   const [enteredTime, setEnteredTime] = useState("");
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredPhone, setEnteredPhone] = useState("");
-  const [enteredMail, setEnteredMail] = useState("");
+
 
   const [enteredLocation, setEnteredLocation] = useState("każde");
   const [sizeMatchedTables, setSizeMatchedTables] = useState([]);
@@ -121,11 +119,14 @@ const ReservationForm = (props) => {
 
   // console.log(props.tables);
   return (
+    <>
+    <NameInput />
     <form className="formclass" onSubmit={submitHandler}>
       <div className="new-reservation__controls">
         <div className="new-reservation__control">
-            <NameInput enteredName={enteredName} enteredPhone={enteredPhone} enteredMail={enteredMail}
-                setEnteredName={setEnteredName} setEnteredPhone={setEnteredPhone} setEnteredMail={setEnteredMail}      />
+          
+            {/* <NameInput enteredName={enteredName} enteredPhone={enteredPhone} enteredMail={enteredMail}
+                setEnteredName={setEnteredName} setEnteredPhone={setEnteredPhone} setEnteredMail={setEnteredMail}      /> */}
           <label>Data</label>
 
           <input
@@ -225,6 +226,7 @@ const ReservationForm = (props) => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

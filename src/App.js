@@ -137,7 +137,7 @@ const App = (props) => {
       id: Math.random().toString(),
     };
 
-    props.onAddReservation(reservationData);
+    // props.onAddReservation(reservationData);
   };
 
   return (
