@@ -26,38 +26,38 @@ const getClientById = async (req, res, next) => {
 };
 
 const getClientByFilter = async (req, res, next) => {
-    try {
-      let value = req.params.value;
-      let filter = req.params.filter;
-      let [client, _] = await Client.findByFilter(filter,value);
-  
-      res.status(200).json({ client });
-      console.log("Client filtered by: " + filter + ", " + value, client);
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  };
+  try {
+    let value = req.params.value;
+    let filter = req.params.filter;
+    let [client, _] = await Client.findByFilter(filter, value);
 
-  const createNewClient = async (req, res, next) => {
-    try {
-      let { name, phone, email } = req.body;
-      let client = new Client(name, phone, email);
-      data  = await client.save();
-      console.log("client saved:", data);
-  
-      res.status(201).json({ mssg: "client saved", data });
-      return data;
-    } catch (error) {
-      console.log(error);
-      next(error);
-      return null;
-    }
-  };
+    res.status(200).json({ client });
+    console.log("Client filtered by: " + filter + ", " + value, client);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const createNewClient = async (req, res, next) => {
+  try {
+    let { name, phone, email } = req.body;
+    let client = new Client(name, phone, email);
+    let data = await client.save();
+    console.log("client saved:", data);
+
+    res.status(201).json({ mssg: "client saved", data });
+    return data;
+  } catch (error) {
+    console.log(error);
+    next(error);
+    return null;
+  }
+};
 
 module.exports = {
   getAllClients,
   getClientById,
   getClientByFilter,
-  createNewClient
+  createNewClient,
 };

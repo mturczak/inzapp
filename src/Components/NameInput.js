@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./NameInput.css";
 
 const NameInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [enteredMail, setEnteredMail] = useState("");
-  const [idClientState, setIdClientState]= useState("");
+
+  useEffect(() => {
+    console.log("idClientState", props.idClientState);
+  }, [props.idClientState]);
 
   const nameChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -17,18 +20,11 @@ const NameInput = (props) => {
     setEnteredMail(event.target.value);
   };
 
-
   const submitHandler = (event) => {
     event.preventDefault();
-    if (
-      enteredName === "" ||
-      enteredPhone === "" ||
-      enteredMail === ""
-      
-    )
+    if (enteredName === "" || enteredPhone === "" || enteredMail === "")
       return console.log("nie dozwolone jest pozostawienie pustych pól");
     const nameInputData = {
-      
       name: enteredName,
       phone: enteredPhone,
       email: enteredMail,
@@ -40,7 +36,6 @@ const NameInput = (props) => {
     setEnteredMail("");
   };
 
-
   const addNameInputHandler = async (nameInput) => {
     const response = await fetch("/reservation/clients", {
       method: "POST",
@@ -51,6 +46,7 @@ const NameInput = (props) => {
     });
 
     const json = await response.json();
+    console.log("id_clients", json.data[0]);
 
     if (!response.ok) {
       console.log(json.error);
@@ -64,7 +60,11 @@ const NameInput = (props) => {
       // setReps("");
       // setError(null);
       // setEmptyFields([]);
-      console.log("new reservation added", json);
+      console.log("new client added", json);
+      if (json) {
+        props.setIdClientState(json.data[0].id_clients);
+        //  console.log("idClientState",idClientState);wa
+      }
       // dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
   };
@@ -86,19 +86,14 @@ const NameInput = (props) => {
         </div>
         <div className="new-reservation__control">
           <label>Wprowadz email</label>
-          <input
-            type="text"
-            value={enteredMail}
-            onChange={mailChangeHandler}
-          />
-
-          </div>
-          </div>
-          <div className="new-reservation__actions">
-            <button type="button" className="button" onClick={submitHandler}>Potwierdź</button>
-          </div>
-        
-      
+          <input type="text" value={enteredMail} onChange={mailChangeHandler} />
+        </div>
+      </div>
+      <div className="new-reservation__actions">
+        <button type="button" className="button" onClick={submitHandler}>
+          Potwierdź
+        </button>
+      </div>
     </form>
   );
 };

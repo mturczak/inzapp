@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Reservation from "./Reservation";
 
 const ReservationPreview = (props) => {
-  
-
   useEffect(() => {
     const fetchReservations = async () => {
       const response = await fetch("/reservation");

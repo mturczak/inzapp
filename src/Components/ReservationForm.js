@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NameInput from "./NameInput";
 import "./ReservationForm.css";
 
+
 import TablesInSelect from "./TablesInSelect";
 
 let now = new Date();
@@ -22,7 +23,7 @@ const ReservationForm = (props) => {
   const [enteredTable, setEnteredTable] = useState("0");
   const [enteredDate, setEnteredDate] = useState(todaysDate);
   const [enteredTime, setEnteredTime] = useState("");
-
+  const [idClientState, setIdClientState] = useState("");
 
   const [enteredLocation, setEnteredLocation] = useState("każde");
   const [sizeMatchedTables, setSizeMatchedTables] = useState([]);
@@ -85,13 +86,14 @@ const ReservationForm = (props) => {
       enteredSize === "" ||
       enteredTable === "" ||
       enteredDate === "" ||
-      enteredTime === ""
+      enteredTime == ""
     )
       return console.log("nie dozwolone jest pozostawienie pustych pól");
+    if (idClientState === "") return console.log("wprowadz klienta");
     const reservationData = {
       // id: ++max_id_reservations,
       // size: enteredSize,
-      id_clients: 1,
+      id_clients: idClientState,
       id_tables: enteredTable,
       date: enteredDate,
       id_hours: enteredTime,
@@ -120,34 +122,36 @@ const ReservationForm = (props) => {
   // console.log(props.tables);
   return (
     <>
-    <NameInput />
-    <form className="formclass" onSubmit={submitHandler}>
-      <div className="new-reservation__controls">
-        <div className="new-reservation__control">
-          
+      <NameInput
+        idClientState={idClientState}
+        setIdClientState={setIdClientState}
+      />
+      <form className="formclass" onSubmit={submitHandler}>
+        <div className="new-reservation__controls">
+          <div className="new-reservation__control">
             {/* <NameInput enteredName={enteredName} enteredPhone={enteredPhone} enteredMail={enteredMail}
                 setEnteredName={setEnteredName} setEnteredPhone={setEnteredPhone} setEnteredMail={setEnteredMail}      /> */}
-          <label>Data</label>
+            <label>Data</label>
 
-          <input
-            type="date"
-            min={todaysDate}
-            max={maxReservationDate}
-            value={enteredDate}
-            onChange={dateChangeHandler}
-          />
-        </div>
-        <div className="new-reservation__control">
-          <label>Ilość osób</label>
-          <input
-            type="number"
-            min={1}
-            max={10}
-            value={enteredSize}
-            onChange={sizeChangeHandler}
-          />
-        </div>
-        {/* <div className="new-reservation__control">
+            <input
+              type="date"
+              min={todaysDate}
+              max={maxReservationDate}
+              value={enteredDate}
+              onChange={dateChangeHandler}
+            />
+          </div>
+          <div className="new-reservation__control">
+            <label>Ilość osób</label>
+            <input
+              type="number"
+              min={1}
+              max={10}
+              value={enteredSize}
+              onChange={sizeChangeHandler}
+            />
+          </div>
+          {/* <div className="new-reservation__control">
           <label>Położenie stolika</label>
           <select
             className="new-reservation__control"
@@ -168,32 +172,32 @@ const ReservationForm = (props) => {
           </select>
           
         </div> */}
-        <div className="new-reservation__control">
-          <label>Stolik</label>
-          {/* <Select
+          <div className="new-reservation__control">
+            <label>Stolik</label>
+            {/* <Select
             className="new-reservation__control_select"
             value={enteredTable}
             onChange={tableChangeHandler}
             options={props.tables.filter((table) => table.isBusy)}
             getOptionLabel={(option) => option.id}
           /> */}
-          <select
-            className="new-reservation__control"
-            value={enteredTable}
-            onChange={tableChangeHandler}
-          >
-            <TablesInSelect passedOptions={sizeMatchedTables} />
-          </select>
-        </div>
+            <select
+              className="new-reservation__control"
+              value={enteredTable}
+              onChange={tableChangeHandler}
+            >
+              <TablesInSelect passedOptions={sizeMatchedTables} />
+            </select>
+          </div>
 
-        <div className="new-reservation__control">
-          <label>Godzina</label>
-          <select
-            className="new-reservation__control"
-            value={enteredTime}
-            onChange={timeChangeHandler}
-          >
-            {/* {hours &&
+          <div className="new-reservation__control">
+            <label>Godzina</label>
+            <select
+              className="new-reservation__control"
+              value={enteredTime}
+              onChange={timeChangeHandler}
+            >
+              {/* {hours &&
               hours.map((hour) => {
                 return (
                   <option key={hour.id_hours} value={hour.id_hours}>
@@ -201,31 +205,31 @@ const ReservationForm = (props) => {
                   </option>
                 );
               })} */}
-            {props.tables2 &&
-              props.tables2[0] &&
-              props.tables2[0].freeHours &&
-              enteredTable &&
-              props.tables2[enteredTable].freeHours.map((hour, index) => {
-                if (hour !== "busy")
-                  return (
-                    <option key={index} value={index}>
-                      {hour}
-                    </option>
-                  );
-              })}
-          </select>
-          {/* <input type="time" value={enteredTime} onChange={timeChangeHandler} />s */}
+              {props.tables2 &&
+                props.tables2[0] &&
+                props.tables2[0].freeHours &&
+                enteredTable &&
+                props.tables2[enteredTable].freeHours.map((hour, index) => {
+                  if (hour !== "busy")
+                    return (
+                      <option key={index} value={index}>
+                        {hour}
+                      </option>
+                    );
+                })}
+            </select>
+            {/* <input type="time" value={enteredTime} onChange={timeChangeHandler} />s */}
+          </div>
         </div>
-      </div>
-      <div className="new-reservation__actions">
-        <button className="button" type="submit" onClick={submitHandler}>
-          Zarezerwuj
-        </button>
-        <button className="button" onClick={test_button} type="button">
-          Anuluj
-        </button>
-      </div>
-    </form>
+        <div className="new-reservation__actions">
+          <button className="button" type="submit" onClick={submitHandler}>
+            Zarezerwuj
+          </button>
+          <button className="button" onClick={test_button} type="button">
+            Anuluj
+          </button>
+        </div>
+      </form>
     </>
   );
 };
