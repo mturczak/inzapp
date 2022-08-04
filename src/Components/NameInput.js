@@ -46,7 +46,6 @@ const NameInput = (props) => {
     });
 
     const json = await response.json();
-    console.log("id_clients", json.data[0]);
 
     if (!response.ok) {
       console.log(json.error);
@@ -60,9 +59,9 @@ const NameInput = (props) => {
       // setReps("");
       // setError(null);
       // setEmptyFields([]);
-      console.log("new client added", json);
+      console.log("new client added id:", json.data.insertId);
       if (json) {
-        props.setIdClientState(json.data[0].id_clients);
+        props.setIdClientState(json.data.insertId);
         //  console.log("idClientState",idClientState);wa
       }
       // dispatch({ type: "CREATE_WORKOUT", payload: json });

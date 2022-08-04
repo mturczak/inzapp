@@ -11,6 +11,17 @@ const getAllReservations = async (req, res, next) => {
   }
 };
 
+const getAllReservationsWithInfo = async (req, res, next) => {
+  try {
+    const [reservations, _] = await Reservation.findAllWithInfo();
+    res.status(200).json(reservations);
+    console.log("reservations shown");
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 
 const getReservationById = async (req, res, next) => {
   try {
@@ -73,5 +84,6 @@ module.exports = {
   createNewReservation,
   getReservationById,
   getReservedReservations,
-  getReservedReservationsByDate
+  getReservedReservationsByDate,
+  getAllReservationsWithInfo
 };

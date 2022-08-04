@@ -18,10 +18,10 @@ class Client {
     );
     `;
 
-    const [newClient, _] = await db.execute(sql);
-       let sql2 = `Select id_clients from clients where name = '${this.name}'and phone ='${this.phone}' and email='${this.email}'` 
-       const [newClientsId,__] = await db.execute(sql2);
-      return newClientsId;
+    const [newClient, _] = await db.execute(sql)
+    console.log("newCLient", newClient)
+    
+      return newClient;
   }
 
   static findById(id) {

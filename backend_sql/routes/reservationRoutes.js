@@ -15,6 +15,7 @@ const router = express.Router();
 // router.route("/:id").get(postControllers.getPostBy);
 
 router.get("/", reservationsControllers.getAllReservations);
+router.get("/info", reservationsControllers.getAllReservationsWithInfo);
 router.get("/:filter&:id", reservationsControllers.getReservationById);
 router.get("/reserved", reservationsControllers.getReservedReservations);
 router.get("/reservedbydate/:date", reservationsControllers.getReservedReservationsByDate);
