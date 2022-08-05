@@ -42,7 +42,8 @@ const ReservationPreview = (props) => {
 
   const columns = [{
     name: "ID Rezerwacji",
-    selector: row => row.id_reservation
+    selector: row => row.id_reservation,
+    sortable: true
   },
   {
     name: "Data Rezerwacji",
@@ -78,13 +79,13 @@ const ReservationPreview = (props) => {
   {
     name: "Utworzono",
     selector: row => row.created_at,
-    format: row => moment(row.date).locale("pl").format('lll'),
+    format: row => moment(row.created_at).locale("pl").format('lll'),
     sortable: true,
   },
   {
     name: "Edytowano",
     selector: row => row.updated_at,
-    format: row => moment(row.date).format('lll'),
+    format: row => moment(row.updated_at).format('lll'),
     
     sortable: true,
   },
@@ -92,6 +93,7 @@ const ReservationPreview = (props) => {
     const columns2 = [{
       label: "ID Rezerwacji",
       renderCell: row => row.id_reservation
+
     },
     {
       label: "Data Rezerwacji",

@@ -3,6 +3,7 @@ require("dotenv").config(); // ALLOWS ENVIRONMENT VARIABLES TO BE SET ON PROCESS
 const { application } = require("express");
 const express = require("express");
 const reservationRoutes = require ('./routes/reservationRoutes')
+const db = require("./models_seq")
 
 //express app
 const app = express();
@@ -44,7 +45,11 @@ app.listen(process.env.PORT, () => {
 app.use('/reservation',reservationRoutes);
 
 // connect to db
-
+db.sequelize.sync().then(()=> {
+  app.listen(6500, () => {
+    console.log('connected to db,  port', 6500)
+  })
+})
 // var mysql = require('mysql2');
 
 // const connection = mysql.createConnection({

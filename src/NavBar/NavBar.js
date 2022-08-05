@@ -1,20 +1,32 @@
 import { Button } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import React from "react";
 import "./NavBar.css";
 import { Router, Link } from "react-router-dom";
 
 const NavBar = () => {
-  return (
-    
-    <div className="navBar">
-      <Link to="/">
-      <Button >Start</Button>
+  return (<div className="navbar">
+    <nav class="navbar navbar-light bg-light">
+    <Link to="/">
+        <button className="btn btn-secondary mr-1 ">Start</button>
       </Link>
-            <Link to="/auth">
-      <Button>Wyloguj</Button>
+  <Link to="/auth">
+        <button className="btn btn-secondary pd-">Wyloguj</button>
       </Link>
-    </div>
-    
+    </nav>
+
+
+  {/* <div className="btn-group mb-2 btn-group-lg">
+    <Link to="/">
+        <button className="btn btn-secondary ">Start</button>
+      </Link>
+      <Link to="/auth">
+        <button className="btn btn-secondary pd-">Wyloguj</button>
+      </Link>
+      </div> */}
+      </div>
   );
 };
 

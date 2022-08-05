@@ -1,4 +1,4 @@
-const Hour = require("../models/Hours");
+const Hour = require("../models/Hour");
 
 const getAllHours = async (req, res, next) => {
   try {
