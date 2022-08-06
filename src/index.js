@@ -5,16 +5,24 @@ import "./index.css";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Auth from "./Components/Auth";
+import AuthLogin from "./Components/AuthLogin";
+import ReservationPreview from "./Components/ReservationPreviev";
+import NavBar from "./NavBar/NavBar";
+import AuthRegister from "./Components/AuthRegister";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
+  
     <Routes>
       <Route path="/" element={<Navigate to={"home"} />} />
-      <Route path="auth" element ={<Auth />}/>
+      <Route path="authlogin" element ={<AuthLogin />}/>
+      <Route path="authregister" element ={<AuthRegister />}/>
       <Route path="home" element={<App />} />
+      <Route path="/reservations_preview" element={<ReservationPreview />} />
+
       {/* <Route path="admin" element={<Expenses />} /> */}
     </Routes>
+    <NavBar />
   </BrowserRouter>
 );
 

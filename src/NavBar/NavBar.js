@@ -8,11 +8,14 @@ import { Router, Link } from "react-router-dom";
 
 const NavBar = () => {
   return (<div className="navbar">
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light ">
     <Link to="/">
         <button className="btn btn-secondary mr-1 ">Start</button>
       </Link>
-  <Link to="/auth">
+      <Link to="/reservations_preview">
+        <button className="btn btn-secondary pd-">Rezerwacje</button>
+      </Link>
+  <Link to="/authlogin">
         <button className="btn btn-secondary pd-">Wyloguj</button>
       </Link>
     </nav>

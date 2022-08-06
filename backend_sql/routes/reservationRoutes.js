@@ -25,6 +25,9 @@ router.get("/clients", clientsControllers.getAllClients);
 router.get("/clients/:id", clientsControllers.getClientById);
 router.get("/clients/:filter/:value", clientsControllers.getClientByFilter);
 router.post("/clients", clientsControllers.createNewClient);
+router.post("/createuser", clientsControllers.createUser);
+router.post("/login", clientsControllers.login);
+
 
 router.get("/tables", tablesControllers.getAllTables);
 router.get("/tables/:id", tablesControllers.getTableById);

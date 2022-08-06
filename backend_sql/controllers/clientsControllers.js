@@ -1,7 +1,8 @@
 const Client = require("../models/Client");
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require("sequelize");
 // var initModels = require("../models_seq/init-models");
-const {clients} = require("../models_seq")
+const { clients } = require("../models_seq");
+const bcrypt = require("bcrypt");
 // const db = require("../models_seq")
 // const sequelize = new Sequelize('mysql::memory:');
 
@@ -9,10 +10,10 @@ const {clients} = require("../models_seq")
 const getAllClients = async (req, res, next) => {
   try {
     // const [clients, _] = await Client.findAll();
-    const clientsRes = await clients.findAll()
+    const clientsRes = await clients.findAll();
     res.status(200).json(clientsRes);
-    console.log("clients shown", JSON.stringify(clientsRes,null,2));
-  } catch (error) { 
+    console.log("clients shown", JSON.stringify(clientsRes, null, 2));
+  } catch (error) {
     console.log(error);
     next(error);
   }
@@ -51,7 +52,7 @@ const createNewClient = async (req, res, next) => {
     let { name, phone, email } = req.body;
     // let client = new Client(name, phone, email);
     // let data = await client.save();
-    let client_res = await clients.create(req.body);
+    let client_res = await clients.create({ name, phone, email });
     console.log(client_res.dataValues);
 
     res.status(201).json({ mssg: "client saved", client_res });
@@ -62,10 +63,56 @@ const createNewClient = async (req, res, next) => {
     return null;
   }
 };
+const createUser = async (req, res, next) => {
+  try {
+    const { name, phone, email, password } = req.body;
+    const hashed = await bcrypt.hash(password, 10);
+    if (hashed) {
+      let user = await clients.create({
+        name,
+        email,
+        phone,
+        password: hashed,
+        role: "user",
+      });
+      res.status(201).json({ mssg: "user saved", user });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+    return null;
+  }
+};
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    let user = await clients.findOne({ where: { email: email } });
+    if (!user) {
+      res.json({ error: "User doesn't exists" });
+      console.error( "User doesn't exists")
+      return;
+    }
 
+    bcrypt.compare(password, user.password).then((match) => {
+      if (!match) {
+        res.json({ error: "Wrong Email and Password combination" });
+        console.error( "Wrong Email and Password combination")
+        return;
+      }
+
+      res.json({ mssg: "logged in" });
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+    return null;
+  }
+};
 module.exports = {
   getAllClients,
   getClientById,
   getClientByFilter,
   createNewClient,
+  createUser,
+  login,
 };

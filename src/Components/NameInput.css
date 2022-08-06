@@ -19,7 +19,7 @@ label {
   display: block;
 }
 
-input, Field {
+    Field {
   font: inherit;
   padding: 0.5rem;
   border-radius: 6px;

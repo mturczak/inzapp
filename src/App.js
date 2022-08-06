@@ -11,7 +11,7 @@ let newday = [];
 const App = (props) => {
   const [reservations, setReservations] = useState([]);
   const [example_tables_2, setExampleTables2] = useState([]);
-  const [allReservations, setAllReservations] = useState(null);
+  
   const [newdayWithoutReservations, setNewdayWithoudReservations] = useState(
     {}
   );
@@ -143,7 +143,7 @@ const App = (props) => {
   return (
     <div className="App">
       <header className="App-header">inzapp</header>
-      <NavBar />
+      
       <ReservationForm
         records={reservations}
         setDateToArray={setDateToArray}
@@ -152,11 +152,11 @@ const App = (props) => {
         onSaveReservationData={onSaveReservationDataHandler}
         onSaveReservation={addReservationHandler}
       />
-      <ReservationPreview
+      {/* <ReservationPreview
         records={reservations}
         allReservations={allReservations}
         setAllReservations={setAllReservations}
-      />
+      /> */}
     </div>
   );
 };

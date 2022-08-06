@@ -5,10 +5,15 @@ import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 import DataTable from 'react-data-table-component';
 import moment from "moment";
+import "../App.css"
 
-let data;
-moment.locale('pl');
+
+
 const ReservationPreview = (props) => {
+
+
+  const [allReservations, setAllReservations] = useState(null);
+
   useEffect(() => {
     const fetchReservations = async () => {
       const response = await fetch("/reservation/info");
@@ -16,7 +21,7 @@ const ReservationPreview = (props) => {
       const json = await response.json();
       // console.log(json);
       if (response.ok) {
-        props.setAllReservations(json);
+        setAllReservations(json);
       }
     };
 
@@ -24,26 +29,77 @@ const ReservationPreview = (props) => {
     
   }, []);
 
-  const theme = useTheme({
-    Row: `
-      cursor: pointer;
 
-      .td {
-        border-top: 1px solid #a0a8ae;
-        border-bottom: 1px solid #a0a8ae;
-      }
-
-      &:hover .td {
-        border-top: 1px solid orange;
-        border-bottom: 1px solid orange;
-      }
-    `,
-  });
-
+  const CustomStyle = {
+    noData: {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        
+        
+      },
+    },
+    
+    rows: {
+      style: {
+        zIndex: 2,
+        minHeight: '30px !important', // override the row height
+        fontSize: '14px',
+        whiteSpace: 'pre',
+       
+      },
+    },
+    table: {
+      style: {
+        zIndex: 1,
+        
+        
+      },
+    },
+    headRow: {
+      style: {
+        minHeight: '40px',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderBottomWidth: '2px',
+        
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: '16px',
+        justifyContent: 'left',
+        wordWrap: 'breakWord',
+        
+      },
+    },
+    subHeader: {
+      style: {
+        minHeight: '40px',
+      },
+    },
+    pagination: {
+      style: {
+        minHeight: '40px',
+        
+      },
+      pageButtonsStyle: {
+        borderRadius: '50%',
+        height: '40px',
+        width: '40px',
+        padding: '8px',
+        margin: 'px',
+        cursor: 'pointer',
+      },
+    },
+  };
   const columns = [{
     name: "ID Rezerwacji",
     selector: row => row.id_reservation,
-    sortable: true
+    sortable: true,
+    width:'5%' 
   },
   {
     name: "Data Rezerwacji",
@@ -53,7 +109,8 @@ const ReservationPreview = (props) => {
   },
   {
     name: "Godzina",
-    selector: row => row.Hour
+    selector: row => row.Hour,
+    width:'6%' 
   },
   {
     name: "Klient",
@@ -70,11 +127,14 @@ const ReservationPreview = (props) => {
   },
   {
     name: "Stolik",
-    selector: row => row.TableName
-  },
+    selector: row => row.TableName,
+    width:'6%'  },
+    
   {
     name: "Lokalizacja",
-    selector: row => row.TableLocation
+    selector: row => row.TableLocation,
+    width:'6%' 
+    
   },
   {
     name: "Utworzono",
@@ -136,25 +196,29 @@ const ReservationPreview = (props) => {
     },
       ]
 
-      console.log(props.allReservations)
-      let table = <p>tabela</p>;
-      if (true) {
-        table = <CompactTable columns={columns2} data={props.allReservations} theme={theme} progressPending={props.allReservations} />
-      }
-  return (
-    <div>
+      console.log(allReservations)
       
-      {/* {table} */}
-     {props.allReservations&&  <DataTable title="Rezerwacje"
+  return (
+    <div className="reservation_preview">
+      
+      
+     {allReservations&&  <DataTable title="Rezerwacje"
        columns={columns}
-       data={props.allReservations}
-       theme={theme}
+       data={allReservations}
+       customStyles={CustomStyle}
+       defaultSortFieldId={1}
+       defaultSortAsc= {0}
+       pagination
+       highlightOnHover
+       selectableRows
+       persistTableHead
+    
    />
      }
      
       <ul>
-        {props.allReservations &&
-          props.allReservations.map((reservation) => (
+        {allReservations &&
+          allReservations.map((reservation) => (
             <p key={reservation.id_reservation}>
               <strong>id: </strong>
               {reservation.id_reservation},<strong>Data:</strong>{" "}
