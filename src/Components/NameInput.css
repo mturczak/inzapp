@@ -1,5 +1,5 @@
 .formclass {
-  background-color: #92baee;
+  background-color: var(--linen);
   padding: 1rem;
   margin: 2rem auto;
   width: 50rem;
@@ -13,7 +13,7 @@
 }
 
 label {
-  font-weight: bold;
+  
   text-align: left;
   margin-bottom: 0.5rem;
   display: block;

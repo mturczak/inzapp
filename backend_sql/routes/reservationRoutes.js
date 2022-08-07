@@ -4,6 +4,7 @@ const reservationsControllers = require("../controllers/reservationsControllers.
 const clientsControllers = require("../controllers/clientsControllers");
 const tablesControllers = require("../controllers/tablesControllers");
 const hoursControllers = require("../controllers/hoursControllers");
+const { validateToken } = require("../middleware/AuthMiddleware.js");
 
 const router = express.Router();
 // @route GET && POST - /posts/
@@ -19,7 +20,7 @@ router.get("/info", reservationsControllers.getAllReservationsWithInfo);
 router.get("/:filter&:id", reservationsControllers.getReservationById);
 router.get("/reserved", reservationsControllers.getReservedReservations);
 router.get("/reservedbydate/:date", reservationsControllers.getReservedReservationsByDate);
-router.post("/", reservationsControllers.createNewReservation);
+router.post("/", validateToken, reservationsControllers.createNewReservation);
 
 router.get("/clients", clientsControllers.getAllClients);
 router.get("/clients/:id", clientsControllers.getClientById);

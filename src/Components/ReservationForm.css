@@ -1,5 +1,5 @@
 .formclass, form {
-  background-color: #92baee;
+  background-color: var(--gray-web);
   padding: 1rem;
   margin: 2rem auto;
   width: 50rem;
@@ -10,6 +10,7 @@
 }
 
 .new-reservation__controls {
+  font-family: 'Satoshi', sans-serif;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -18,6 +19,8 @@
 }
 
 .new-reservation__control label {
+  
+  font-size: 15px;
   font-weight: bold;
   margin-bottom: 0.5rem;
   display: block;
@@ -42,6 +45,7 @@
 }
 
 .new-reservation__actions {
+  font-family: 'Satoshi', sans-serif;
   text-align: right;
 }
 
@@ -50,10 +54,10 @@
   font: inherit;
   padding: 0.5rem 1.5rem;
   margin-right: 0.5rem;
-  border: 1px solid #8b005d;
+  border: 1px solid var(--davys-grey);
   border-radius: 0.5rem;
   color: white;
-  background: #8b005d;
+  background: var(--davys-grey);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
   cursor: pointer;
 }
@@ -64,8 +68,8 @@
 
 .button:hover,
 .button:active {
-  background: #ac0e77;
-  border-color: #ac0e77;
+  background: #3e3e3e;
+  border-color: #3e3e3e;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
 }
 

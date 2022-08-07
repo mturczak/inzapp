@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NameInput from "./NameInput";
 import "./ReservationForm.css";
-
 
 import TablesInSelect from "./TablesInSelect";
 
@@ -40,11 +39,16 @@ const ReservationForm = (props) => {
       }
     };
     console.log(enteredDate);
+    if(sessionStorage.getItem("id_client")){
+      setIdClientState(sessionStorage.getItem("id_client"))
+      
+    }
+    
     fetchHours();
   }, []);
 
-  let ids_reservations = props.records.map((value) => value.id);
-  let max_id_reservations = Math.max(...ids_reservations);
+  
+  
 
   const sizeChangeHandler = (event) => {
     setEnteredSize(event.target.value);
@@ -76,8 +80,7 @@ const ReservationForm = (props) => {
     // console.log(enteredTable);
     // console.log(enteredDate);
     // console.log(enteredTime);
-    console.log(props.records);
-    console.log(maxReservationDate);
+    
   };
 
   const submitHandler = (event) => {

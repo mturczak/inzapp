@@ -1,7 +1,7 @@
-import * as Yup from "yup";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
 import "./NameInput.css";
-import { Formik, Field, Form, ErrorMessage } from "formik";
 
 const NameInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
@@ -96,15 +96,19 @@ const NameInput = (props) => {
         <Form>
           <div className="new-reservation__controls">
             <div className="new-reservation__control">
-              <label>Name</label>
+              <label>Imię i Nazwisko</label>
               <ErrorMessage
                 name="name"
                 component="div"
                 className="alert alert-warning"
-                
               />
-              <Field id="name" name="name" placeholder="Jan kowalski" value={enteredName}
-              onChange={nameChangeHandler} />
+              <Field
+                id="name"
+                name="name"
+                placeholder="Jan kowalski"
+                value={enteredName}
+                onChange={nameChangeHandler}
+              />
             </div>
             <div className="new-reservation__control">
               <label> Numer telefonu</label>

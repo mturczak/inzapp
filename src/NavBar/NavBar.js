@@ -1,27 +1,34 @@
-import { Button } from "react-bootstrap";
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 import React from "react";
+import { Link } from "react-router-dom";
 import "./NavBar.css";
-import { Router, Link } from "react-router-dom";
 
 const NavBar = () => {
-  return (<div className="navbar">
-    <nav class="navbar navbar-light ">
-    <Link to="/">
-        <button className="btn btn-secondary mr-1 ">Start</button>
+  return (
+    <div className="navbar justify-content-end">
+      {/* <nav class="navbar navbar-light "> */}
+      <span class="material-symbols-outlined">lunch_dining</span>
+      <Link to="/home">
+        {" "}
+        Start
+        {/* <button className="btn btn-secondary mr-1 ">Start</button> */}
       </Link>
       <Link to="/reservations_preview">
-        <button className="btn btn-secondary pd-">Rezerwacje</button>
+        {" "}
+        Rezerwacje
+        {/* <button className="btn btn-secondary pd-">Rezerwacje</button> */}
       </Link>
-  <Link to="/authlogin">
-        <button className="btn btn-secondary pd-">Wyloguj</button>
+      <Link
+        to="/authlogin"
+        onClick={() => {
+          sessionStorage.clear();
+        }}
+      >
+        Wyloguj
+        {/* <button className="btn btn-secondary pd-">Wyloguj</button> */}
       </Link>
-    </nav>
+      {/* </nav> */}
 
-
-  {/* <div className="btn-group mb-2 btn-group-lg">
+      {/* <div className="btn-group mb-2 btn-group-lg">
     <Link to="/">
         <button className="btn btn-secondary ">Start</button>
       </Link>
@@ -29,7 +36,7 @@ const NavBar = () => {
         <button className="btn btn-secondary pd-">Wyloguj</button>
       </Link>
       </div> */}
-      </div>
+    </div>
   );
 };
 

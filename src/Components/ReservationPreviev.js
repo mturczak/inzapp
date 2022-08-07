@@ -1,18 +1,49 @@
-import React, { useState, useEffect } from "react";
-import Reservation from "./Reservation";
-import { CompactTable } from '@table-library/react-table-library/compact';
-import { useTheme } from '@table-library/react-table-library/theme';
-import { getTheme } from '@table-library/react-table-library/baseline';
-import DataTable from 'react-data-table-component';
+import { fontSize } from "@mui/system";
+import { Button } from "bootstrap";
 import moment from "moment";
-import "../App.css"
-
-
+import React, { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import "../Home.css";
+import "./ReservationPreview.css";
 
 const ReservationPreview = (props) => {
-
-
   const [allReservations, setAllReservations] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
+  
+
+  const handleRowSelected = React.useCallback((state) => {
+    setSelectedRows(state.selectedRows);
+  }, []);
+
+  const contextActions = React.useMemo(() => {
+    const handleDelete = () => {
+      if (
+        window.confirm(
+          `Are you sure you want to delete:\r ${selectedRows.map(
+            (r) => r.title
+          )}?`
+        )
+      ) {
+        setToggleCleared(!toggleCleared);
+        // setData(differenceBy(data, selectedRows, "title"));
+      }
+    };
+
+    return (
+      
+      <button
+        key="delete"
+        onClick={handleDelete}
+        className="material-symbols-outlined"
+        style={{ backgroundColor: "#f24073ff",
+        fontSize: "30px" }}
+        icon
+      >
+        Delete
+      </button>
+    );
+  }, [ selectedRows, toggleCleared]);
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -26,197 +57,188 @@ const ReservationPreview = (props) => {
     };
 
     fetchReservations();
-    
   }, []);
-
 
   const CustomStyle = {
     noData: {
       style: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white',
-        
-        
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "white",
       },
     },
-    
+
     rows: {
       style: {
         zIndex: 2,
-        minHeight: '30px !important', // override the row height
-        fontSize: '14px',
-        whiteSpace: 'pre',
-       
+        minHeight: "30px !important", // override the row height
+        fontSize: "14px",
+        whiteSpace: "pre",
       },
     },
     table: {
       style: {
         zIndex: 1,
-        
-        
       },
     },
     headRow: {
       style: {
-        minHeight: '40px',
-        borderTopWidth: '1px',
-        borderTopStyle: 'solid',
-        borderBottomWidth: '2px',
-        
+        minHeight: "40px",
+        borderTopWidth: "1px",
+        borderTopStyle: "solid",
+        borderBottomWidth: "2px",
       },
     },
     headCells: {
       style: {
-        fontSize: '16px',
-        justifyContent: 'left',
-        wordWrap: 'breakWord',
-        
+        fontSize: "16px",
+        justifyContent: "left",
+        wordWrap: "breakWord",
       },
     },
     subHeader: {
       style: {
-        minHeight: '40px',
+        minHeight: "40px",
       },
     },
     pagination: {
       style: {
-        minHeight: '40px',
-        
+        minHeight: "40px",
       },
       pageButtonsStyle: {
-        borderRadius: '50%',
-        height: '40px',
-        width: '40px',
-        padding: '8px',
-        margin: 'px',
-        cursor: 'pointer',
+        borderRadius: "50%",
+        height: "40px",
+        width: "40px",
+        padding: "8px",
+        margin: "px",
+        cursor: "pointer",
       },
     },
   };
-  const columns = [{
-    name: "ID Rezerwacji",
-    selector: row => row.id_reservation,
-    sortable: true,
-    width:'5%' 
-  },
-  {
-    name: "Data Rezerwacji",
-    selector: row => row.date,
-    format: row => moment(row.date).format('ll'),
-    sortable: true
-  },
-  {
-    name: "Godzina",
-    selector: row => row.Hour,
-    width:'6%' 
-  },
-  {
-    name: "Klient",
-    selector: row => row.name,
-    sortable: true
-  },
-  {
-    name: "phone",
-    selector: row => row.phone
-  },
-  {
-    name: "mail",
-    selector: row => row.email
-  },
-  {
-    name: "Stolik",
-    selector: row => row.TableName,
-    width:'6%'  },
-    
-  {
-    name: "Lokalizacja",
-    selector: row => row.TableLocation,
-    width:'6%' 
-    
-  },
-  {
-    name: "Utworzono",
-    selector: row => row.created_at,
-    format: row => moment(row.created_at).locale("pl").format('lll'),
-    sortable: true,
-  },
-  {
-    name: "Edytowano",
-    selector: row => row.updated_at,
-    format: row => moment(row.updated_at).format('lll'),
-    
-    sortable: true,
-  },
-    ]
-    const columns2 = [{
-      label: "ID Rezerwacji",
-      renderCell: row => row.id_reservation
+  const columns = [
+    {
+      name: "ID Rezerwacji",
+      selector: (row) => row.id_reservation,
+      sortable: true,
+      width: "5%",
+    },
+    {
+      name: "Data Rezerwacji",
+      selector: (row) => row.date,
+      format: (row) => moment(row.date).format("ll"),
+      sortable: true,
+    },
+    {
+      name: "Godzina",
+      selector: (row) => row.Hour,
+      width: "6%",
+    },
+    {
+      name: "Klient",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "phone",
+      selector: (row) => row.phone,
+    },
+    {
+      name: "mail",
+      selector: (row) => row.email,
+    },
+    {
+      name: "Stolik",
+      selector: (row) => row.TableName,
+      width: "6%",
+    },
 
+    {
+      name: "Lokalizacja",
+      selector: (row) => row.TableLocation,
+      width: "6%",
+    },
+    {
+      name: "Utworzono",
+      selector: (row) => row.created_at,
+      format: (row) => moment(row.created_at).locale("pl").format("lll"),
+      sortable: true,
+    },
+    {
+      name: "Edytowano",
+      selector: (row) => row.updated_at,
+      format: (row) => moment(row.updated_at).format("lll"),
+
+      sortable: true,
+    },
+  ];
+  const columns2 = [
+    {
+      label: "ID Rezerwacji",
+      renderCell: (row) => row.id_reservation,
     },
     {
       label: "Data Rezerwacji",
-      renderCell:row => row.date,
-      
+      renderCell: (row) => row.date,
     },
     {
       label: "Godzina",
-      renderCell: row => row.Hour
+      renderCell: (row) => row.Hour,
     },
     {
       label: "Klient",
-      renderCell: row => row.name,
-      
+      renderCell: (row) => row.name,
     },
     {
       label: "phone",
-      renderCell: row => row.phone
+      renderCell: (row) => row.phone,
     },
     {
       label: "mail",
-      renderCell: row => row.email
+      renderCell: (row) => row.email,
     },
     {
       label: "Stolik",
-      renderCell: row => row.TableName
+      renderCell: (row) => row.TableName,
     },
     {
       label: "Lokalizacja",
-      renderCell: row => row.TableLocation
+      renderCell: (row) => row.TableLocation,
     },
     {
       label: "Utworzono",
-      renderCell: row => row.created_at,
+      renderCell: (row) => row.created_at,
       sortable: true,
     },
     {
       label: "Edytowano",
-      renderCell: row => row.updated_at
+      renderCell: (row) => row.updated_at,
     },
-      ]
+  ];
 
-      console.log(allReservations)
-      
+  console.log(allReservations);
+
   return (
     <div className="reservation_preview">
-      
-      
-     {allReservations&&  <DataTable title="Rezerwacje"
-       columns={columns}
-       data={allReservations}
-       customStyles={CustomStyle}
-       defaultSortFieldId={1}
-       defaultSortAsc= {0}
-       pagination
-       highlightOnHover
-       selectableRows
-       persistTableHead
-    
-   />
-     }
-     
-      <ul>
+      {allReservations && (
+        <DataTable
+          title="Rezerwacje"
+          columns={columns}
+          data={allReservations}
+          customStyles={CustomStyle}
+          defaultSortFieldId={1}
+          defaultSortAsc={0}
+          pagination
+          highlightOnHover
+          selectableRows
+          persistTableHead
+          contextActions={contextActions}
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared}
+        />
+      )}
+
+      {/* <ul>
         {allReservations &&
           allReservations.map((reservation) => (
             <p key={reservation.id_reservation}>
@@ -235,7 +257,7 @@ const ReservationPreview = (props) => {
             //   reservation_time={records.reservation_time}
             // />
           ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

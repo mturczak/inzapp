@@ -3,6 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 // var initModels = require("../models_seq/init-models");
 const { clients } = require("../models_seq");
 const bcrypt = require("bcrypt");
+const {sign} = require("jsonwebtoken")
 // const db = require("../models_seq")
 // const sequelize = new Sequelize('mysql::memory:');
 
@@ -89,23 +90,23 @@ const login = async (req, res, next) => {
     let user = await clients.findOne({ where: { email: email } });
     if (!user) {
       res.json({ error: "User doesn't exists" });
-      console.error( "User doesn't exists")
+      console.error("User doesn't exists");
       return;
     }
 
     bcrypt.compare(password, user.password).then((match) => {
       if (!match) {
         res.json({ error: "Wrong Email and Password combination" });
-        console.error( "Wrong Email and Password combination")
+        console.error("Wrong Email and Password combination");
         return;
       }
-
-      res.json({ mssg: "logged in" });
+      const accessToken = sign({email: user.email, id_clients: user.id_clients}, "importantsecret")
+      res.json({ mssg: "logged in" , token: accessToken, id: user.id_clients, role: user.role});
     });
   } catch (error) {
     console.log(error);
     next(error);
-    return null;
+    
   }
 };
 module.exports = {
