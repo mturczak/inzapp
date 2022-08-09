@@ -4,7 +4,7 @@ const getAllTables = async (req, res, next) => {
   try {
     const [tables, _] = await Table.findAll();
     res.status(200).json(tables);
-    console.log("tables shown");
+    // console.log("tables shown");
   } catch (error) {
     console.log(error);
     next(error);

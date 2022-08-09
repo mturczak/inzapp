@@ -15,6 +15,7 @@ const getAllReservationsWithInfo = async (req, res, next) => {
   try {
     const role = req.user.role;
     const id= req.user.id_clients;
+    console.log("role")
     if(role === "admin") {
       const [reservations, _] = await Reservation.findAllWithInfo();
     res.status(200).json(reservations);
@@ -23,9 +24,12 @@ const getAllReservationsWithInfo = async (req, res, next) => {
       const [reservations, _] = await Reservation.findAllWithInfoById(id);
     res.status(200).json(reservations);
     console.log("reservations shown");
+    }else if (!role){
+      return res.status(401).json({error: "User is not logged in"})
     }
     
   } catch (error) {
+    console.log("role", role, "id", id)
     console.log(error);
     next(error);
   }

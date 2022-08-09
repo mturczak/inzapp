@@ -34,12 +34,13 @@ const AuthLogin = (props) => {
       console.log("logged in", json);
       alert("logged in");
       sessionStorage.setItem("accessToken", json.token);
-      sessionStorage.setItem("id_clients", json.id);
+      sessionStorage.setItem("id_clients", json.id_clients);
       sessionStorage.setItem("role", json.role);
       setAuthState({
         accessToken: json.token,
-        id_clients: json.id,
+        id_clients: json.id_clients,
         role: json.role,
+        name: json.name
       });
       
     }

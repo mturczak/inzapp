@@ -27,6 +27,7 @@ const App = () => {
           accessToken: sessionStorage.getItem("accessToken"),
           id_clients: json.id_clients,
           role: json.role,
+          name: json.name
         });
       }
     };
@@ -40,6 +41,7 @@ const App = () => {
         <NavBar />
         <a>{authState.role}</a>
         <Routes>
+          
           <Route path="/" element={<Navigate to={"authregister"} />} />
           <Route path="authlogin" element={<AuthLogin />} />
           <Route path="authregister" element={<AuthRegister />} />

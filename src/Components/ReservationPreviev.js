@@ -46,18 +46,27 @@ const ReservationPreview = (props) => {
   }, [ selectedRows, toggleCleared]);
 
   useEffect(() => {
-    const fetchReservations = async () => {
-      const response = await fetch("/reservation/info",{
-        headers: {
-          accessToken: sessionStorage.getItem("accessToken"),
-        },
-      });
-      // console.log(response);
-      const json = await response.json();
-      // console.log(json);
-      if (response.ok) {
-        setAllReservations(json);
+    const fetchReservations = async (req, res, next) => {
+      try {
+        const response = await fetch("/reservation/info",{
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+          },
+        });
+        // console.log(response);
+        const json = await response.json();
+        
+        if (response.ok) {
+          console.log(response);
+          setAllReservations(json);
+        }else{
+          return json.error;
+        }
+      } catch (error) {
+        console.error("error z preview", error)
+        next(error);
       }
+      
     };
 
     fetchReservations();

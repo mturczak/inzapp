@@ -20,16 +20,24 @@
   align-items: center;
   font-family: 'Satoshi', sans-serif;
 }
+.navbar_inside {
+  background-color: #b0aeae;
+  padding: 0.6rem;
+  border-radius: 0.8rem;
+  
+  
+}
 
 .navbar a {
-  margin-right: 20px;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
   text-decoration: none;
   color: rgb(52, 52, 52);
   font-size:x-large;
   font-weight: 500;
 }
 .navbar a:hover {
-  margin-right: 20px;
+  
   text-decoration: none;
-  color: rgb(166, 166, 166);
+  color: rgb(229, 229, 229);
 }

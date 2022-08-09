@@ -100,8 +100,8 @@ const login = async (req, res, next) => {
         console.error("Wrong Email and Password combination");
         return;
       }
-      const accessToken = sign({email: user.email, id_clients: user.id_clients, role:user.role}, "importantsecret")
-      res.json({ mssg: "logged in" , token: accessToken, id: user.id_clients, role: user.role});
+      const accessToken = sign({email: user.email, id_clients: user.id_clients, name:user.name, role:user.role, }, "importantsecret")
+      res.json({ mssg: "logged in" , token: accessToken,email:user.email, id_clients: user.id_clients, name:user.name, role: user.role});
     });
   } catch (error) {
     console.log(error);

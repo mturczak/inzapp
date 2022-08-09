@@ -9,21 +9,25 @@ const NavBar = () => {
     sessionStorage.clear();
     setAuthState({});
   };
-  useEffect(() => {
-    
-  }, [authState]);
+  useEffect(() => {}, [authState]);
   return (
     <div className="navbar justify-content-end">
       <span class="material-symbols-outlined">lunch_dining</span>
-      <Link to="/home">Start</Link>
-      <Link to="/reservations_preview">Rezerwacje</Link>
-      {!authState["accessToken"] ? (
-        <Link to="/authlogin">Zaloguj</Link>
-      ) : (
-        <Link to="/authlogin" onClick={sessionStorageClear}>
-          Wyloguj
-        </Link>
-      )}
+      {authState.name && <a>Witaj {authState.name}!</a>}
+      <div className="navbar_inside">
+        <Link to="/home">Start</Link>
+
+        {!authState["accessToken"] ? (
+          <Link to="/authlogin">Zaloguj</Link>
+        ) : (
+          <>
+            <Link to="/reservations_preview">Rezerwacje</Link>
+            <Link to="/authlogin" onClick={sessionStorageClear}>
+              Wyloguj
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   );
 };
