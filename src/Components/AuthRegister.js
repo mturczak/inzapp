@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AuthRegister = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [enteredMail, setEnteredMail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
-
+  let navigate = useNavigate();
   const nameChangeHandler = (event) => {
     setEnteredName(event.target.value);
   };
@@ -29,23 +29,22 @@ const AuthRegister = (props) => {
         name: enteredName,
         phone: enteredPhone,
         password: enteredPassword,
-        
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(response)
     const json = await response.json();
-    
+
     if (!response.ok) {
-      console.log( json.error);
-      window.alert(json.error)
+      console.log(json.error);
+      window.alert(json.error);
     }
     if (response.ok) {
       console.log("registered in", json);
+      window.alert("Konto zarejestrowane pomyślnie.");
 
-      document.getElementById("AuthRegisterForm").submit();
+      navigate("/authlogin");
     }
   };
 
@@ -98,7 +97,6 @@ const AuthRegister = (props) => {
                 placeholder="hasło"
                 onChange={passwordChangeHandler}
               />
-              
             </div>
             <div className="d-grid gap-2 mt-3">
               <button onClick={onSubmit} className="btn btn-secondary">

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import NameInput from "./NameInput";
 import "./ReservationForm.css";
+import { AuthContext } from "../helpers/AuthContext";
 
 import TablesInSelect from "./TablesInSelect";
 
@@ -27,6 +28,7 @@ const ReservationForm = (props) => {
   const [enteredLocation, setEnteredLocation] = useState("każde");
   const [sizeMatchedTables, setSizeMatchedTables] = useState([]);
   const [hours, setHours] = useState([]);
+  const { authState } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchHours = async () => {
@@ -39,16 +41,12 @@ const ReservationForm = (props) => {
       }
     };
     console.log(enteredDate);
-    if(sessionStorage.getItem("id_client")){
-      setIdClientState(sessionStorage.getItem("id_client"))
-      
+    if (sessionStorage.getItem("id_client")) {
+      setIdClientState(sessionStorage.getItem("id_client"));
     }
-    
+    console.log(authState)
     fetchHours();
   }, []);
-
-  
-  
 
   const sizeChangeHandler = (event) => {
     setEnteredSize(event.target.value);
@@ -80,7 +78,6 @@ const ReservationForm = (props) => {
     // console.log(enteredTable);
     // console.log(enteredDate);
     // console.log(enteredTime);
-    
   };
 
   const submitHandler = (event) => {
@@ -124,11 +121,11 @@ const ReservationForm = (props) => {
 
   // console.log(props.tables);
   return (
-    <>
+    <>{(!authState["role"] || authState["role"] === "admin") &&
       <NameInput
         idClientState={idClientState}
         setIdClientState={setIdClientState}
-      />
+      />}
       <form className="formclass" onSubmit={submitHandler}>
         <div className="new-reservation__controls">
           <div className="new-reservation__control">

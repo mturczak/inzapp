@@ -1,5 +1,3 @@
-import { fontSize } from "@mui/system";
-import { Button } from "bootstrap";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
@@ -10,73 +8,94 @@ const ReservationPreview = (props) => {
   const [allReservations, setAllReservations] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
+
   
 
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
   }, []);
-
+  
   const contextActions = React.useMemo(() => {
     const handleDelete = () => {
-      if (
-        window.confirm(
-          `Are you sure you want to delete:\r ${selectedRows.map(
-            (r) => r.title
-          )}?`
-        )
-      ) {
+      if (window.confirm(`Are you sure you want to delete?`)) {
         setToggleCleared(!toggleCleared);
         // setData(differenceBy(data, selectedRows, "title"));
+        deleteReservations();
+        window.location.reload();
+      }
+    };
+    
+    const deleteReservations = async () => {
+      try {
+        let arrayIds;
+        if (selectedRows) {
+          arrayIds = await selectedRows.map((e) => {
+            return e.id_reservation;
+          });
+        }
+        console.log(arrayIds);
+        console.log(JSON.stringify(arrayIds));
+  
+        const data = await fetch("/reservation/deletereservations", {
+          method: "DELETE",
+          body: JSON.stringify(arrayIds),
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+            "Content-Type": "application/json",
+          },
+        });
+  
+        console.log("deleted reservations", data);
+      } catch (error) {
+        console.log(error);
       }
     };
 
     return (
-      
       <button
         key="delete"
         onClick={handleDelete}
         className="material-symbols-outlined"
-        style={{ backgroundColor: "#f24073ff",
-        fontSize: "30px" }}
-        icon
+        style={{ backgroundColor: "#f24073ff", fontSize: "30px" }}
       >
         Delete
       </button>
     );
-  }, [ selectedRows, toggleCleared]);
+  }, [selectedRows, toggleCleared]);
 
   useEffect(() => {
     const fetchReservations = async (req, res, next) => {
       try {
-        const response = await fetch("/reservation/info",{
+        const response = await fetch("/reservation/info", {
           headers: {
             accessToken: sessionStorage.getItem("accessToken"),
           },
         });
         // console.log(response);
         const json = await response.json();
-        
+
         if (response.ok) {
           console.log(response);
           setAllReservations(json);
-        }else{
+          console.log(allReservations);
+        } else {
           return json.error;
         }
       } catch (error) {
-        console.error("error z preview", error)
+        console.error("error z preview", error);
         next(error);
       }
-      
     };
+    console.log(allReservations);
 
     fetchReservations();
-  }, []);
+  }, [toggleCleared]);
 
   const CustomStyle = {
     noData: {
       style: {
-        margin:"0%" ,
-        padding:"0%" ,
+        margin: "0%",
+        padding: "0%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -99,7 +118,7 @@ const ReservationPreview = (props) => {
     },
     headRow: {
       style: {
-        margin:"0px" ,
+        margin: "0px",
         minHeight: "40px",
         borderTopWidth: "1px",
         borderTopStyle: "solid",
@@ -251,6 +270,7 @@ const ReservationPreview = (props) => {
           contextActions={contextActions}
           onSelectedRowsChange={handleRowSelected}
           clearSelectedRows={toggleCleared}
+          onColumnOrderChange={(cols) => console.log(cols)}
         />
       )}
 

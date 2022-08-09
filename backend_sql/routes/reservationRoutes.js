@@ -22,6 +22,8 @@ router.get("/:filter&:id", reservationsControllers.getReservationById);
 router.get("/reserved", reservationsControllers.getReservedReservations);
 router.get("/reservedbydate/:date", reservationsControllers.getReservedReservationsByDate);
 router.post("/", validateToken, reservationsControllers.createNewReservation);
+router.post("/withoutaccount", reservationsControllers.createNewReservation);
+router.delete("/deletereservations", validateToken, reservationsControllers.deleteReservations)
 
 
 router.get("/clients", clientsControllers.getAllClients);

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Client = require("../models/Client");
 const { Sequelize, DataTypes, Op } = require("sequelize");
 // var initModels = require("../models_seq/init-models");
@@ -70,24 +71,45 @@ const createUser = async (req, res, next) => {
     let checkIfExists = await clients.findOne({
       where: { [Op.or]: [{ email: email }, { phone: phone }] },
     });
+
     if (checkIfExists) {
-      res.status(400).json({ error: "Email or Phone is already registered" });
-      console.error("Email or Phone is already registered");
-      return;
-    }
-    const hashed = await bcrypt.hash(password, 10);
-    if (hashed) {
-      let user = await clients.create({
-        name,
-        email,
-        phone,
-        password: hashed,
-        role: "user",
-      });
-      res.status(201).json({ mssg: "user saved", user });
+      if (checkIfExists.hasAccount) {
+        res.status(400).json({ error: "Email or Phone is already registered" });
+        console.error("Email or Phone is already registered");
+        return;
+      }
+      const hashed = await bcrypt.hash(password, 10);
+      let updatedUser = await clients.update(
+        {
+          name: name,
+          email: email,
+          phone: phone,
+          hasAccount: 1,
+          password: hashed,
+          role: "user",
+        },
+        {
+          where: { id_clients: checkIfExists.id_clients },
+        }
+      );
+      res.status(201).json({ mssg: "user updated", updatedUser });
+    } else {
+      const hashed = await bcrypt.hash(password, 10);
+      if (hashed) {
+        let user = await clients.create({
+          name,
+          email,
+          phone,
+          hasAccount: 1,
+          password: hashed,
+          role: "user",
+        });
+        res.status(201).json({ mssg: "user saved", user });
+      }
     }
   } catch (error) {
     console.log(error);
+    res.status(400).json(error);
     next(error);
   }
 };
@@ -114,7 +136,7 @@ const login = async (req, res, next) => {
           name: user.name,
           role: user.role,
         },
-        "importantsecret"
+        process.env.JWT_KEY
       );
       res.json({
         mssg: "logged in",
@@ -127,6 +149,7 @@ const login = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(401).json(error);
     next(error);
   }
 };
@@ -134,7 +157,7 @@ const auth = (req, res, next) => {
   try {
     res.json(req.user);
   } catch (error) {
-    res.json(error);
+    res.status(400).json(error);
   }
 };
 module.exports = {

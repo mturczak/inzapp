@@ -94,14 +94,25 @@ const Home = (props) => {
   };
 
   const addReservationHandler = async (reservation) => {
-    const response = await fetch("/reservation", {
+    let response;
+    if(authState["role"]){
+      response = await fetch("/reservation", {
       method: "POST",
       body: JSON.stringify(reservation),
       headers: {
         "Content-Type": "application/json",
         accessToken: sessionStorage.getItem("accessToken"),
       },
-    });
+    });}else{
+      response = await fetch("/reservation/withoutaccount", {
+        method: "POST",
+        body: JSON.stringify(reservation),
+        headers: {
+          "Content-Type": "application/json",
+          
+        },
+      })
+    }
 
     const json = await response.json();
     // console.log("new reservation added", json);

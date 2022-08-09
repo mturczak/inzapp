@@ -1,8 +1,15 @@
 const Reservation = require("../models/Reservation");
+const { Sequelize, DataTypes } = require("sequelize");
+var initModels = require("../models_seq/init-models");
+const reservations = require("../models_seq/reservations");
+const sequelize = new Sequelize("mysql::memory:");
+const db = require("../models_seq");
 
+var models = initModels(db.sequelize);
 const getAllReservations = async (req, res, next) => {
   try {
-    const [reservations, _] = await Reservation.findAll();
+    const reservations = await models.reservations.findAll();
+    // const [reservations, _] = await Reservation.findAll();
     res.status(200).json(reservations);
     console.log("reservations shown");
   } catch (error) {
@@ -14,22 +21,21 @@ const getAllReservations = async (req, res, next) => {
 const getAllReservationsWithInfo = async (req, res, next) => {
   try {
     const role = req.user.role;
-    const id= req.user.id_clients;
-    console.log("role")
-    if(role === "admin") {
+    const id = req.user.id_clients;
+    console.log("role");
+    if (role === "admin") {
       const [reservations, _] = await Reservation.findAllWithInfo();
-    res.status(200).json(reservations);
-    console.log("reservations shown");
-    }else if (role === "user" || role === "client"){
+      res.status(200).json(reservations);
+      console.log("reservations shown");
+    } else if (role === "user" || role === "client") {
       const [reservations, _] = await Reservation.findAllWithInfoById(id);
-    res.status(200).json(reservations);
-    console.log("reservations shown");
-    }else if (!role){
-      return res.status(401).json({error: "User is not logged in"})
+      res.status(200).json(reservations);
+      console.log("reservations shown");
+    } else if (!role) {
+      return res.status(401).json({ error: "User is not logged in" });
     }
-    
   } catch (error) {
-    console.log("role", role, "id", id)
+    console.log("role", role, "id", id);
     console.log(error);
     next(error);
   }
@@ -98,15 +104,40 @@ const getReservedReservationsByDate = async (req, res, next) => {
 const createNewReservation = async (req, res, next) => {
   try {
     let { date, id_tables, id_hours } = req.body;
-    let id_clients = req.user.id_clients;
+    let id_clients;
+    if (req.user) {
+      id_clients = req.user.id_clients;
+    } else {
+      id_clients = req.body.id_clients;
+    }
     let reservation = new Reservation(date, id_clients, id_tables, id_hours);
     await reservation.save();
     console.log("reservation done:", reservation);
 
     res.status(201).json({ mssg: "reservation done", reservation });
   } catch (error) {
-    res.statur(400).json(error);
+    res.status(400).json(error);
     console.error(error);
+    next(error);
+  }
+};
+
+const deleteReservations = async (req, res, next) => {
+  try {
+    const role = req.user.role;
+    console.log(role);
+    if (role !== "admin") res.status(401).json("Acces denied");
+    else {
+      const idArray = req.body;
+      const response = models.reservations.destroy({
+        where: { id_reservation: idArray },
+      });
+      res.status(200).json(response);
+      console.log(response);
+    }
+  } catch (error) {
+    console.log(error);
+
     next(error);
   }
 };
@@ -119,4 +150,5 @@ module.exports = {
   getReservedReservationsByDate,
   getAllReservationsWithInfo,
   getAllReservationsWithInfoById,
+  deleteReservations,
 };

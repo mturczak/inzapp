@@ -80,7 +80,7 @@ const NameInput = (props) => {
       }
       // dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
-    let elo = "";
+    
   };
   return (
     <div>
