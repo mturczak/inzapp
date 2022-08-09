@@ -100,7 +100,7 @@ const login = async (req, res, next) => {
         console.error("Wrong Email and Password combination");
         return;
       }
-      const accessToken = sign({email: user.email, id_clients: user.id_clients}, "importantsecret")
+      const accessToken = sign({email: user.email, id_clients: user.id_clients, role:user.role}, "importantsecret")
       res.json({ mssg: "logged in" , token: accessToken, id: user.id_clients, role: user.role});
     });
   } catch (error) {
@@ -109,6 +109,15 @@ const login = async (req, res, next) => {
     
   }
 };
+const auth = (req, res, next) => {
+    try {
+      res.json(req.user);
+    } catch (error) {
+      res.json(error)
+    }
+    
+  
+}
 module.exports = {
   getAllClients,
   getClientById,
@@ -116,4 +125,5 @@ module.exports = {
   createNewClient,
   createUser,
   login,
+  auth
 };

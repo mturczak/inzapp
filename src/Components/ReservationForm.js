@@ -92,7 +92,7 @@ const ReservationForm = (props) => {
       enteredTime == ""
     )
       return console.log("nie dozwolone jest pozostawienie pustych pól");
-    if (idClientState === "") return console.log("wprowadz klienta");
+    // if (idClientState === "") return console.log("wprowadz klienta");
     const reservationData = {
       // id: ++max_id_reservations,
       // size: enteredSize,

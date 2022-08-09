@@ -16,11 +16,13 @@ const router = express.Router();
 // router.route("/:id").get(postControllers.getPostBy);
 
 router.get("/", reservationsControllers.getAllReservations);
-router.get("/info", reservationsControllers.getAllReservationsWithInfo);
+router.get("/allbyclient",validateToken,  reservationsControllers.getAllReservationsWithInfoById)
+router.get("/info",validateToken, reservationsControllers.getAllReservationsWithInfo);
 router.get("/:filter&:id", reservationsControllers.getReservationById);
 router.get("/reserved", reservationsControllers.getReservedReservations);
 router.get("/reservedbydate/:date", reservationsControllers.getReservedReservationsByDate);
 router.post("/", validateToken, reservationsControllers.createNewReservation);
+
 
 router.get("/clients", clientsControllers.getAllClients);
 router.get("/clients/:id", clientsControllers.getClientById);
@@ -28,6 +30,7 @@ router.get("/clients/:filter/:value", clientsControllers.getClientByFilter);
 router.post("/clients", clientsControllers.createNewClient);
 router.post("/createuser", clientsControllers.createUser);
 router.post("/login", clientsControllers.login);
+router.get("/auth", validateToken, clientsControllers.auth)
 
 
 router.get("/tables", tablesControllers.getAllTables);

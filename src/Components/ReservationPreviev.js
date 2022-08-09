@@ -47,7 +47,11 @@ const ReservationPreview = (props) => {
 
   useEffect(() => {
     const fetchReservations = async () => {
-      const response = await fetch("/reservation/info");
+      const response = await fetch("/reservation/info",{
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      });
       // console.log(response);
       const json = await response.json();
       // console.log(json);

@@ -1,41 +1,29 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../helpers/AuthContext";
 import "./NavBar.css";
 
 const NavBar = () => {
+  const { authState, setAuthState } = useContext(AuthContext);
+  const sessionStorageClear = () => {
+    sessionStorage.clear();
+    setAuthState({});
+  };
+  useEffect(() => {
+    
+  }, [authState]);
   return (
     <div className="navbar justify-content-end">
-      {/* <nav class="navbar navbar-light "> */}
       <span class="material-symbols-outlined">lunch_dining</span>
-      <Link to="/home">
-        {" "}
-        Start
-        {/* <button className="btn btn-secondary mr-1 ">Start</button> */}
-      </Link>
-      <Link to="/reservations_preview">
-        {" "}
-        Rezerwacje
-        {/* <button className="btn btn-secondary pd-">Rezerwacje</button> */}
-      </Link>
-      <Link
-        to="/authlogin"
-        onClick={() => {
-          sessionStorage.clear();
-        }}
-      >
-        Wyloguj
-        {/* <button className="btn btn-secondary pd-">Wyloguj</button> */}
-      </Link>
-      {/* </nav> */}
-
-      {/* <div className="btn-group mb-2 btn-group-lg">
-    <Link to="/">
-        <button className="btn btn-secondary ">Start</button>
-      </Link>
-      <Link to="/auth">
-        <button className="btn btn-secondary pd-">Wyloguj</button>
-      </Link>
-      </div> */}
+      <Link to="/home">Start</Link>
+      <Link to="/reservations_preview">Rezerwacje</Link>
+      {!authState["accessToken"] ? (
+        <Link to="/authlogin">Zaloguj</Link>
+      ) : (
+        <Link to="/authlogin" onClick={sessionStorageClear}>
+          Wyloguj
+        </Link>
+      )}
     </div>
   );
 };

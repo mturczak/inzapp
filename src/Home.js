@@ -97,27 +97,21 @@ const Home = (props) => {
       body: JSON.stringify(reservation),
       headers: {
         "Content-Type": "application/json",
-        accesToken: sessionStorage.getItem("accesToken"),
+        accessToken: sessionStorage.getItem("accessToken"),
       },
     });
 
     const json = await response.json();
-
+    // console.log("new reservation added", json);
     if (json.error) {
       console.log(json.error);
 
       // setError(json.error);
       // setEmptyFields(json.emptyFields);
-    }
-    if (response.ok) {
-      // setTitle("");
-      // setLoad("");
-      // setReps("");
-      // setError(null);
-      // setEmptyFields([]);
+    }else {
       console.log("new reservation added", json);
-      // dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
+    
   };
 
   return (

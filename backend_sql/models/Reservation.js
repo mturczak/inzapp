@@ -46,6 +46,14 @@ class Reservation {
     return db.execute(sql);
   }
 
+  static findAllWithInfoById(id) {
+    let sql = `SELECT R.id_reservation, date, H.name AS Hour, C.name, C.phone, C.email, T.name AS TableName, T.location AS TableLocation, R.created_at, R.updated_at FROM inz_app.reservations R
+    LEFT JOIN tables T ON  R.id_tables = T.id_tables
+    LEFT JOIN Clients C ON R.id_clients = C.id_clients
+    LEFT JOIN hours H ON R.id_hours=H.id_hours WHERE R.id_clients = ${id} ORDER BY date ASC, H.name ;`
+    return db.execute(sql);
+  }
+
   static findReserved(date, id_tables, id_hours) {
     let temphours = parseInt(id_hours) - 1;
     let sql = `SELECT * FROM reservations where date ='${date}' and id_tables = ${id_tables} and (id_hours = ${id_hours} OR id_hours = ${temphours} );`;

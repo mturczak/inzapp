@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./Auth.css"
+import { AuthContext } from "../helpers/AuthContext";
+import "./Auth.css";
 
 const AuthLogin = (props) => {
   const [enteredMail, setEnteredMail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
+  const { setAuthState } = useContext(AuthContext);
+
+ 
 
   const mailChangeHandler = (event) => {
     setEnteredMail(event.target.value);
@@ -26,13 +30,18 @@ const AuthLogin = (props) => {
 
     if (json.error) {
       alert(json.error);
-      
-    }else {
+    } else {
       console.log("logged in", json);
-      alert("logged in")
-      sessionStorage.setItem("accesToken",json.token)
-      sessionStorage.setItem("id_client",json.id)
-      sessionStorage.setItem("role", json.role)
+      alert("logged in");
+      sessionStorage.setItem("accessToken", json.token);
+      sessionStorage.setItem("id_clients", json.id);
+      sessionStorage.setItem("role", json.role);
+      setAuthState({
+        accessToken: json.token,
+        id_clients: json.id,
+        role: json.role,
+      });
+      
     }
   };
 
