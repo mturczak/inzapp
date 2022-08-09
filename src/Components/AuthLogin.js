@@ -51,30 +51,30 @@ const AuthLogin = (props) => {
       <div className="Auth-form-container">
         <form className="Auth-form">
           <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
+            <h3 className="Auth-form-title">Logowanie</h3>
             <div className="text-center">
-              Not registered yet?{" "}
+              Nie masz jeszcze konta?{" "}
               <Link to="/AuthRegister">
                 <span className="link-primary" role="button">
-                  Sign Up
+                  Załóż konto
                 </span>
               </Link>
             </div>
             <div className="form-group mt-3">
-              <label>Email address</label>
+              <label>Adres Email</label>
               <input
                 type="text"
                 className="form-control mt-1"
-                placeholder="Enter email"
+                placeholder="Wprowadź email"
                 onChange={mailChangeHandler}
               />
             </div>
             <div className="form-group mt-3">
-              <label>Password</label>
+              <label>Hasło</label>
               <input
                 type="password"
                 className="form-control mt-1"
-                placeholder="Enter password"
+                placeholder="Wprowadź hasło"
                 onChange={passwordChangeHandler}
               />
             </div>
@@ -84,12 +84,12 @@ const AuthLogin = (props) => {
                 onClick={onSubmit}
                 className="btn btn-secondary"
               >
-                Submit
+                Potwierdź
               </button>
             </div>
-            <p className="text-center mt-2">
+            {/* <p className="text-center mt-2">
               Forgot <a href="#">password?</a>
-            </p>
+            </p> */}
           </div>
         </form>
       </div>

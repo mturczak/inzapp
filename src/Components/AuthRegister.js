@@ -52,59 +52,59 @@ const AuthRegister = (props) => {
       <div className="Auth-form-container">
         <form id={"AuthRegisterForm"} className="Auth-form" onSubmit={onSubmit}>
           <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
+            <h3 className="Auth-form-title">Rejestracja</h3>
             <div className="text-center">
-              Already registered?{" "}
+              Masz już konto?{" "}
               <Link to="/AuthLogin">
                 <span className="link-primary" role="button">
-                  Sign In
+                  Zaloguj się
                 </span>
               </Link>
             </div>
             <div className="form-group mt-3">
-              <label>Full Name</label>
+              <label>Imię i nazwisko</label>
               <input
                 type="text"
                 className="form-control mt-1"
-                placeholder="e.g Jane Doe"
+                placeholder="np. Jan Kowalski"
                 onChange={nameChangeHandler}
               />
             </div>
             <div className="form-group mt-3">
-              <label>Email address</label>
+              <label>Adres email</label>
               <input
                 type="text"
                 className="form-control mt-1"
-                placeholder="Email Address"
+                placeholder="adres email"
                 onChange={mailChangeHandler}
               />
             </div>
             <div className="form-group mt-3">
-              <label>Phone</label>
+              <label>Telefon</label>
               <input
                 type="phone"
                 className="form-control mt-1"
-                placeholder="Phone Number"
+                placeholder="numer telefonu"
                 onChange={phoneChangeHandler}
               />
             </div>
             <div className="form-group mt-3">
-              <label>Password</label>
+              <label>Hasło</label>
               <input
                 type="password"
                 className="form-control mt-1"
-                placeholder="Password"
+                placeholder="hasło"
                 onChange={passwordChangeHandler}
               />
             </div>
             <div className="d-grid gap-2 mt-3">
               <button onClick={onSubmit} className="btn btn-secondary">
-                Submit
+                Potwierdź
               </button>
             </div>
-            <p className="text-center mt-2">
+            {/* <p className="text-center mt-2">
               Forgot <a href="#">password?</a>
-            </p>
+            </p> */}
           </div>
         </form>
       </div>
