@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 import "./Auth.css";
 
@@ -8,8 +8,7 @@ const AuthLogin = (props) => {
   const [enteredPassword, setEnteredPassword] = useState("");
   const { setAuthState } = useContext(AuthContext);
 
- 
-
+  let navigate = useNavigate();
   const mailChangeHandler = (event) => {
     setEnteredMail(event.target.value);
   };
@@ -40,9 +39,9 @@ const AuthLogin = (props) => {
         accessToken: json.token,
         id_clients: json.id_clients,
         role: json.role,
-        name: json.name
+        name: json.name,
       });
-      
+      navigate("/home");
     }
   };
 

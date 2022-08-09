@@ -3,6 +3,7 @@
 
 .reservation_preview {
     font-family: 'Satoshi', sans-serif;
+    height: 70vh;
 }
 button {
     width: 100%;

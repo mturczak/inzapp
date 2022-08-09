@@ -1,43 +1,59 @@
-
-
 .material-symbols-outlined {
-  margin-right: auto;
-  margin-left: 2rem;
-  font-size:50px;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 200,
-  'GRAD' 200,
-  'opsz' 48
+  font-size: 50px;
+  font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 200, "opsz" 48;
 }
-
 
 .navbar {
   width: 100%;
   height: 70px;
+  margin-bottom: 4rem;
   background-color: var(--light-gray);
   display: flex;
   align-items: center;
-  font-family: 'Satoshi', sans-serif;
+  font-family: "Satoshi", sans-serif;
 }
 .navbar_inside {
+ 
   background-color: #b0aeae;
   padding: 0.6rem;
   border-radius: 0.8rem;
-  
-  
 }
 
-.navbar a {
+.navbar a,
+p {
   margin-right: 0.5rem;
   margin-left: 0.5rem;
+  margin-bottom: 0;
   text-decoration: none;
   color: rgb(52, 52, 52);
-  font-size:x-large;
+  font-size: x-large;
   font-weight: 500;
 }
 .navbar a:hover {
-  
   text-decoration: none;
   color: rgb(229, 229, 229);
+}
+
+.navbar a.left_assigned {
+  margin-right: auto;
+  margin-left: 2rem;
+}
+
+@media (max-width: 768px) {
+  .navbar_inside {
+    width: 100%;
+    justify-content: end;
+    
+    border-radius: 0rem;
+    padding: 0.8rem;
+    padding-right: 0%;
+    text-align: center;
+     }
+    .navbar p {
+    margin-right: auto;
+    margin-left: -2rem;
+      text-align: center;
+      justify-content: center;
+      
+    }
 }

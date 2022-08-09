@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Home.css";
 import ReservationForm from "./Components/ReservationForm";
+import { AuthContext } from "../src/helpers/AuthContext";
 
 let newday = [];
 
 const Home = (props) => {
   const [example_tables_2, setExampleTables2] = useState([]);
+  const { authState, setAuthState } = useContext(AuthContext);
 
   const [newdayWithoutReservations, setNewdayWithoudReservations] = useState(
     {}
@@ -108,14 +110,23 @@ const Home = (props) => {
 
       // setError(json.error);
       // setEmptyFields(json.emptyFields);
-    }else {
+    } else {
       console.log("new reservation added", json);
     }
-    
   };
 
   return (
     <div className="App">
+      {authState.token && (
+        <>
+          <h2>Utwórz rezerwacje bez zakładania konta</h2>
+          <h5 className="font-weight-light">
+            lub załóż konto by mieć wgląd w swoje rezerwacje klikając{" "}
+            <a href="authregister">tutaj</a>
+          </h5>
+        </>
+      )}
+
       <ReservationForm
         setDateToArray={setDateToArray}
         tables={example_tables_2}

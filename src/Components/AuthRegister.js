@@ -29,16 +29,18 @@ const AuthRegister = (props) => {
         name: enteredName,
         phone: enteredPhone,
         password: enteredPassword,
+        
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
+    console.log(response)
     const json = await response.json();
-
+    
     if (!response.ok) {
-      console.log(json.error);
+      console.log( json.error);
+      window.alert(json.error)
     }
     if (response.ok) {
       console.log("registered in", json);
@@ -96,6 +98,7 @@ const AuthRegister = (props) => {
                 placeholder="hasło"
                 onChange={passwordChangeHandler}
               />
+              
             </div>
             <div className="d-grid gap-2 mt-3">
               <button onClick={onSubmit} className="btn btn-secondary">

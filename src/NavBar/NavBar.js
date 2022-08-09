@@ -11,9 +11,10 @@ const NavBar = () => {
   };
   useEffect(() => {}, [authState]);
   return (
-    <div className="navbar justify-content-end">
-      <span class="material-symbols-outlined">lunch_dining</span>
-      {authState.name && <a>Witaj {authState.name}!</a>}
+    <div className="navbar">
+      <Link className="left_assigned" to="/home">
+      <span class="material-symbols-outlined" >lunch_dining</span></Link>
+      {authState.name && <p className="witaj">Witaj {authState.name}!</p>}
       <div className="navbar_inside">
         <Link to="/home">Start</Link>
 

@@ -15,6 +15,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--white);
+  
 }
 
 code {
@@ -35,4 +36,29 @@ label {
   height: 30px;
   line-height:30px;
   padding:0px 15px;
+}
+
+footer {
+  margin-bottom: 0%;
+  
+  text-align: center;
+  padding: 3px;
+  bottom: 0%;
+  
+  color: white;
+}
+footer .footer {
+  font-size: 12px;
+font-weight: 100;
+opacity: 60%;}
+
+footer .footer.name   {
+  font-size: 18px;
+}
+
+footer .footer.praca   {
+  font-size: 15px;
+}
+footer .footer.role   {
+  opacity:20%;
 }

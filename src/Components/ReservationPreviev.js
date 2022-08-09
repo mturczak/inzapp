@@ -75,6 +75,8 @@ const ReservationPreview = (props) => {
   const CustomStyle = {
     noData: {
       style: {
+        margin:"0%" ,
+        padding:"0%" ,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -97,10 +99,11 @@ const ReservationPreview = (props) => {
     },
     headRow: {
       style: {
+        margin:"0px" ,
         minHeight: "40px",
         borderTopWidth: "1px",
         borderTopStyle: "solid",
-        borderBottomWidth: "2px",
+        borderBottomWidth: "3px",
       },
     },
     headCells: {

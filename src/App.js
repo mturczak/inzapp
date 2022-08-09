@@ -27,7 +27,7 @@ const App = () => {
           accessToken: sessionStorage.getItem("accessToken"),
           id_clients: json.id_clients,
           role: json.role,
-          name: json.name
+          name: json.name,
         });
       }
     };
@@ -39,9 +39,8 @@ const App = () => {
     <AuthContext.Provider value={{ authState, setAuthState }}>
       <BrowserRouter>
         <NavBar />
-        <a>{authState.role}</a>
+
         <Routes>
-          
           <Route path="/" element={<Navigate to={"authregister"} />} />
           <Route path="authlogin" element={<AuthLogin />} />
           <Route path="authregister" element={<AuthRegister />} />
@@ -52,6 +51,13 @@ const App = () => {
           />
         </Routes>
       </BrowserRouter>
+      <footer>
+        <p className="footer name">Miłosz Turczak</p>
+        <p className="footer praca">
+          <strong>Praca Inżynierska:</strong> Aplikacja webowa wspomagająca pracę restauracji
+        </p>
+        <p className="footer role">Role: {authState.role}</p>
+      </footer>
     </AuthContext.Provider>
   );
 };

@@ -149,7 +149,7 @@ const NameInput = (props) => {
           </div>
         </Form>
       </Formik>
-      <form>
+      {/* <form>
         <div className="new-reservation__controls">
           <div className="new-reservation__control">
             <label>Wprowadz imię i nazwisko</label>
@@ -182,7 +182,7 @@ const NameInput = (props) => {
             Potwierdź
           </button>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 };

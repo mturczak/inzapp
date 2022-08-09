@@ -1,9 +1,9 @@
 const Client = require("../models/Client");
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes, Op } = require("sequelize");
 // var initModels = require("../models_seq/init-models");
 const { clients } = require("../models_seq");
 const bcrypt = require("bcrypt");
-const {sign} = require("jsonwebtoken")
+const { sign } = require("jsonwebtoken");
 // const db = require("../models_seq")
 // const sequelize = new Sequelize('mysql::memory:');
 
@@ -67,6 +67,14 @@ const createNewClient = async (req, res, next) => {
 const createUser = async (req, res, next) => {
   try {
     const { name, phone, email, password } = req.body;
+    let checkIfExists = await clients.findOne({
+      where: { [Op.or]: [{ email: email }, { phone: phone }] },
+    });
+    if (checkIfExists) {
+      res.status(400).json({ error: "Email or Phone is already registered" });
+      console.error("Email or Phone is already registered");
+      return;
+    }
     const hashed = await bcrypt.hash(password, 10);
     if (hashed) {
       let user = await clients.create({
@@ -81,7 +89,6 @@ const createUser = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
-    return null;
   }
 };
 const login = async (req, res, next) => {
@@ -100,24 +107,36 @@ const login = async (req, res, next) => {
         console.error("Wrong Email and Password combination");
         return;
       }
-      const accessToken = sign({email: user.email, id_clients: user.id_clients, name:user.name, role:user.role, }, "importantsecret")
-      res.json({ mssg: "logged in" , token: accessToken,email:user.email, id_clients: user.id_clients, name:user.name, role: user.role});
+      const accessToken = sign(
+        {
+          email: user.email,
+          id_clients: user.id_clients,
+          name: user.name,
+          role: user.role,
+        },
+        "importantsecret"
+      );
+      res.json({
+        mssg: "logged in",
+        token: accessToken,
+        email: user.email,
+        id_clients: user.id_clients,
+        name: user.name,
+        role: user.role,
+      });
     });
   } catch (error) {
     console.log(error);
     next(error);
-    
   }
 };
 const auth = (req, res, next) => {
-    try {
-      res.json(req.user);
-    } catch (error) {
-      res.json(error)
-    }
-    
-  
-}
+  try {
+    res.json(req.user);
+  } catch (error) {
+    res.json(error);
+  }
+};
 module.exports = {
   getAllClients,
   getClientById,
@@ -125,5 +144,5 @@ module.exports = {
   createNewClient,
   createUser,
   login,
-  auth
+  auth,
 };
