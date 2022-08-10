@@ -27,12 +27,14 @@ router.delete("/deletereservations", validateToken, reservationsControllers.dele
 
 
 router.get("/clients", clientsControllers.getAllClients);
+router.get("/clientsVT",validateToken, clientsControllers.getAllClients);
 router.get("/clients/:id", clientsControllers.getClientById);
 router.get("/clients/:filter/:value", clientsControllers.getClientByFilter);
 router.post("/clients", clientsControllers.createNewClient);
 router.post("/createuser", clientsControllers.createUser);
 router.post("/login", clientsControllers.login);
 router.get("/auth", validateToken, clientsControllers.auth)
+router.delete("/deleteclients",validateToken, clientsControllers.deleteUser);
 
 
 router.get("/tables", tablesControllers.getAllTables);

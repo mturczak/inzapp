@@ -126,7 +126,14 @@ const deleteReservations = async (req, res, next) => {
   try {
     const role = req.user.role;
     console.log(role);
-    if (role !== "admin") res.status(401).json("Acces denied");
+    if (role !== "admin") {
+      const idArray = req.body;
+      const response = models.reservations.destroy({
+        where: { id_reservation: idArray, id_clients: req.user.id_clients },
+      });
+      res.status(200).json(response);
+      console.log(response);
+    }
     else {
       const idArray = req.body;
       const response = models.reservations.destroy({

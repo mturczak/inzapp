@@ -2,10 +2,10 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "../Home.css";
-import "./ReservationPreview.css";
+import "./ClientsPreview.css";
 
-const ReservationPreview = (props) => {
-  const [allReservations, setAllReservations] = useState([]);
+const ClientsPreview = (props) => {
+  const [allClients, setAllClients] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
 
@@ -25,12 +25,13 @@ const ReservationPreview = (props) => {
 
     const deleteReservations = async () => {
       try {
-        let arrayIds = [];
+        let arrayIds=[];
         if (selectedRows) {
-          arrayIds = await selectedRows.map((e) => {
-            return e.id_reservation;
+          arrayIds = selectedRows.map((e) => {
+            return e.id_clients;
           });
-          if (arrayIds.length >= 4) {
+          console.log(arrayIds);
+          if (arrayIds.length >= 2) {
             setToggleCleared(!toggleCleared);
             return;
           }
@@ -38,16 +39,18 @@ const ReservationPreview = (props) => {
         console.log(arrayIds);
         console.log(JSON.stringify(arrayIds));
 
-        const data = await fetch("/reservation/deletereservations", {
-          method: "DELETE",
-          body: JSON.stringify(arrayIds),
-          headers: {
-            accessToken: sessionStorage.getItem("accessToken"),
-            "Content-Type": "application/json",
-          },
-        });
+        if (arrayIds) {
+          const data = await fetch("/reservation/deleteclients", {
+            method: "DELETE",
+            body: JSON.stringify(arrayIds),
+            headers: {
+              accessToken: sessionStorage.getItem("accessToken"),
+              "Content-Type": "application/json",
+            },
+          });
 
-        console.log("deleted reservations", data);
+          console.log("deleted clients", data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -66,9 +69,9 @@ const ReservationPreview = (props) => {
   }, [selectedRows, toggleCleared]);
 
   useEffect(() => {
-    const fetchReservations = async (req, res, next) => {
+    const fetchClients = async (req, res, next) => {
       try {
-        const response = await fetch("/reservation/info", {
+        const response = await fetch("/reservation/clientsVT", {
           headers: {
             accessToken: sessionStorage.getItem("accessToken"),
           },
@@ -78,8 +81,8 @@ const ReservationPreview = (props) => {
 
         if (response.ok) {
           console.log(response);
-          setAllReservations(json);
-          console.log(allReservations);
+          setAllClients(json);
+          console.log(allClients);
         } else {
           return json.error;
         }
@@ -88,9 +91,9 @@ const ReservationPreview = (props) => {
         next(error);
       }
     };
-    console.log(allReservations);
+    console.log(allClients);
 
-    fetchReservations();
+    fetchClients();
   }, [toggleCleared]);
 
   const CustomStyle = {
@@ -155,112 +158,62 @@ const ReservationPreview = (props) => {
   };
   const columns = [
     {
-      name: "ID Rezerwacji",
-      selector: (row) => row.id_reservation,
+      name: "ID Klienta",
+      selector: (row) => row.id_clients,
       sortable: true,
       width: "5%",
     },
     {
-      name: "Data Rezerwacji",
-      selector: (row) => row.date,
-      format: (row) => moment(row.date).format("ll"),
-      sortable: true,
-    },
-    {
-      name: "Godzina",
-      selector: (row) => row.Hour,
-      width: "6%",
-    },
-    {
-      name: "Klient",
+      name: "Nazwa",
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "phone",
+      name: "Telefon",
       selector: (row) => row.phone,
+      width: "6%",
     },
     {
-      name: "mail",
+      name: "Email",
       selector: (row) => row.email,
+      sortable: true,
     },
     {
-      name: "Stolik",
-      selector: (row) => row.TableName,
+      name: "Hasło hash",
+      selector: (row) => row.password,
+    },
+    {
+      name: "Konto?(T/N)",
+      selector: (row) => row.hasAccount,
+    },
+    {
+      name: "Typ",
+      selector: (row) => row.role,
       width: "6%",
     },
-
     {
-      name: "Lokalizacja",
-      selector: (row) => row.TableLocation,
-      width: "6%",
-    },
-    {
-      name: "Utworzono",
+      name: "Utworzony",
       selector: (row) => row.created_at,
       format: (row) => moment(row.created_at).locale("pl").format("lll"),
       sortable: true,
     },
     {
-      name: "Edytowano",
+      name: "Edytowany",
       selector: (row) => row.updated_at,
       format: (row) => moment(row.updated_at).format("lll"),
 
       sortable: true,
     },
   ];
-  const columns2 = [
-    {
-      label: "ID Rezerwacji",
-      renderCell: (row) => row.id_reservation,
-    },
-    {
-      label: "Data Rezerwacji",
-      renderCell: (row) => row.date,
-    },
-    {
-      label: "Godzina",
-      renderCell: (row) => row.Hour,
-    },
-    {
-      label: "Klient",
-      renderCell: (row) => row.name,
-    },
-    {
-      label: "phone",
-      renderCell: (row) => row.phone,
-    },
-    {
-      label: "mail",
-      renderCell: (row) => row.email,
-    },
-    {
-      label: "Stolik",
-      renderCell: (row) => row.TableName,
-    },
-    {
-      label: "Lokalizacja",
-      renderCell: (row) => row.TableLocation,
-    },
-    {
-      label: "Utworzono",
-      renderCell: (row) => row.created_at,
-      sortable: true,
-    },
-    {
-      label: "Edytowano",
-      renderCell: (row) => row.updated_at,
-    },
-  ];
 
-  console.log(allReservations);
+  console.log(allClients);
 
   return (
     <div className="reservation_preview">
       <DataTable
-        title="Rezerwacje"
+        title="Klienci"
         columns={columns}
-        data={allReservations}
+        data={allClients}
         customStyles={CustomStyle}
         defaultSortFieldId={1}
         defaultSortAsc={0}
@@ -273,30 +226,10 @@ const ReservationPreview = (props) => {
         clearSelectedRows={toggleCleared}
         onColumnOrderChange={(cols) => console.log(cols)}
       />
-      <div className="warning"><p className="warning">Można usunąć maksymalnie 3 rezerwacje jednocześnie!</p></div>
-      
-      {/* <ul>
-        {allReservations &&
-          allReservations.map((reservation) => (
-            <p key={reservation.id_reservation}>
-              <strong>id: </strong>
-              {reservation.id_reservation},<strong>Data:</strong>{" "}
-              {reservation.date}, <strong>Utworzono:</strong>{" "}
-              {reservation.created_at}
-            </p>
-
-            // <Reservation
-            //   key={records.id}
-            //   size={records.size}
-            //   reservation_id={records.id}
-            //   table_id={records.table_id}
-            //   reservation_date={records.reservation_date}
-            //   reservation_time={records.reservation_time}
-            // />
-          ))}
-      </ul> */}
+      <div className="warning"><p className="warning">Można usunąć maksymalnie 1 klienta jednocześnie!</p></div>
+      <div className="warning2"><p className="warning2">Uwaga! Podczas usunięcia klienta zostaną usunięte wszystkie jego rezerwacje!</p></div>
     </div>
   );
 };
 
-export default ReservationPreview;
+export default ClientsPreview;

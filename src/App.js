@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AuthLogin from "./Components/AuthLogin";
 import AuthRegister from "./Components/AuthRegister";
 import ReservationPreview from "./Components/ReservationPreviev";
+import ClientsPreview from "./Components/ClientsPreview"
 import { AuthContext } from "./helpers/AuthContext";
 import Home from "./Home";
 import NavBar from "./NavBar/NavBar";
@@ -48,6 +49,10 @@ const App = () => {
           <Route
             path="/reservations_preview"
             element={<ReservationPreview />}
+          />
+          <Route
+            path="/clients_preview"
+            element={<ClientsPreview />}
           />
         </Routes>
       </BrowserRouter>

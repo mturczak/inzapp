@@ -153,6 +153,31 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
+
+const deleteUser = async (req, res, next) => {
+  try {
+    const role = req.user.role;
+    console.log(role);
+    if (role === "admin") {
+      const idArray = req.body;
+      const response = clients.destroy({
+        where: { id_clients: idArray },
+      });
+      res.status(200).json(response);
+      console.log(response);
+    }
+    else {
+      
+      res.status(401).json({error: "Acces denied from clientsControllers"})
+      
+    }
+  } catch (error) {
+    console.log(error);
+
+    next(error);
+  }
+};
+
 const auth = (req, res, next) => {
   try {
     res.json(req.user);
@@ -168,4 +193,5 @@ module.exports = {
   createUser,
   login,
   auth,
+  deleteUser,
 };

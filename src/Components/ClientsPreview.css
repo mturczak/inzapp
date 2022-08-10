@@ -1,0 +1,39 @@
+
+
+
+.reservation_preview {
+    font-family: 'Satoshi', sans-serif;
+    height: 70vh;
+}
+button {
+    width: 100%;
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--davys-grey);
+  border-radius: 0.5rem;
+  color: white;
+  background: var(--davys-grey);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+p.warning {
+    text-align: center;
+    font-size: medium;
+    color: rgb(0, 0, 0);
+}
+div.warning{
+    background-color: rgb(253, 238, 238);
+    opacity: 60%;
+}
+
+p.warning2 {
+    text-align: center;
+    font-size: medium;
+    color: rgb(0, 0, 0);
+}
+div.warning2{
+    background-color: rgb(253, 238, 238);
+    opacity: 60%;
+}

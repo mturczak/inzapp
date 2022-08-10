@@ -13,7 +13,8 @@ const NavBar = () => {
   return (
     <div className="navbar">
       <Link className="left_assigned" to="/home">
-      <span class="material-symbols-outlined" >lunch_dining</span></Link>
+        <span class="material-symbols-outlined">lunch_dining</span>
+      </Link>
       {authState.name && <p className="witaj">Witaj {authState.name}!</p>}
       <div className="navbar_inside">
         <Link to="/home">Start</Link>
@@ -23,6 +24,9 @@ const NavBar = () => {
         ) : (
           <>
             <Link to="/reservations_preview">Rezerwacje</Link>
+            {authState["role"] === "admin" && (
+              <Link to="/clients_preview">Klienci</Link>
+            )}
             <Link to="/authlogin" onClick={sessionStorageClear}>
               Wyloguj
             </Link>
