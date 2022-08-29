@@ -7,7 +7,6 @@ const NameInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [enteredMail, setEnteredMail] = useState("");
-  let elo = "";
 
   useEffect(() => {
     console.log("idClientState", props.idClientState);
@@ -89,7 +88,7 @@ const NameInput = (props) => {
           phone: "",
           email: "",
         }}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={submitHandler}
       >
         <Form>
@@ -134,7 +133,7 @@ const NameInput = (props) => {
               <Field
                 id="email"
                 name="email"
-                placeholder="jane@acme.com"
+                placeholder="jan@gmail.com"
                 type="email"
                 value={enteredMail}
                 onChange={mailChangeHandler}

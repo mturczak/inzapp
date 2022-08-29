@@ -111,11 +111,13 @@ const createNewReservation = async (req, res, next) => {
       id_clients = req.body.id_clients;
     }
     let reservation = new Reservation(date, id_clients, id_tables, id_hours);
+    console.log(reservation);
     await reservation.save();
     console.log("reservation done:", reservation);
 
     res.status(201).json({ mssg: "reservation done", reservation });
   } catch (error) {
+    console.log("siemano");
     res.status(400).json(error);
     console.error(error);
     next(error);
@@ -133,8 +135,7 @@ const deleteReservations = async (req, res, next) => {
       });
       res.status(200).json(response);
       console.log(response);
-    }
-    else {
+    } else {
       const idArray = req.body;
       const response = models.reservations.destroy({
         where: { id_reservation: idArray },

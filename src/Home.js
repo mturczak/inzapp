@@ -116,8 +116,10 @@ const Home = (props) => {
 
     const json = await response.json();
     // console.log("new reservation added", json);
-    if (json.error) {
-      console.log(json.error);
+    console.log(response);
+    if (!response.ok) {
+      console.error({ response, json });
+      alert("Brak wprowadzonych danych klienta!");
 
       // setError(json.error);
       // setEmptyFields(json.emptyFields);
@@ -128,7 +130,7 @@ const Home = (props) => {
 
   return (
     <div className="App">
-      {authState.token && (
+      {!authState.accessToken && (
         <>
           <h2>Utwórz rezerwacje bez zakładania konta</h2>
           <h5 className="font-weight-light">
