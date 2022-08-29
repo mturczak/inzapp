@@ -273,8 +273,12 @@ const ReservationPreview = (props) => {
         clearSelectedRows={toggleCleared}
         onColumnOrderChange={(cols) => console.log(cols)}
       />
-      <div className="warning"><p className="warning">Można usunąć maksymalnie 3 rezerwacje jednocześnie!</p></div>
-      
+      <div className="warning">
+        <p className="warning">
+          Można usunąć maksymalnie 3 rezerwacje jednocześnie!
+        </p>
+      </div>
+
       {/* <ul>
         {allReservations &&
           allReservations.map((reservation) => (

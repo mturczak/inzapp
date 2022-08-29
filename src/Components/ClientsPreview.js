@@ -25,7 +25,7 @@ const ClientsPreview = (props) => {
 
     const deleteReservations = async () => {
       try {
-        let arrayIds=[];
+        let arrayIds = [];
         if (selectedRows) {
           arrayIds = selectedRows.map((e) => {
             return e.id_clients;
@@ -226,8 +226,17 @@ const ClientsPreview = (props) => {
         clearSelectedRows={toggleCleared}
         onColumnOrderChange={(cols) => console.log(cols)}
       />
-      <div className="warning"><p className="warning">Można usunąć maksymalnie 1 klienta jednocześnie!</p></div>
-      <div className="warning2"><p className="warning2">Uwaga! Podczas usunięcia klienta zostaną usunięte wszystkie jego rezerwacje!</p></div>
+      <div className="warning">
+        <p className="warning">
+          Można usunąć maksymalnie 1 klienta jednocześnie!
+        </p>
+      </div>
+      <div className="warning2">
+        <p className="warning2">
+          Uwaga! Podczas usunięcia klienta zostaną usunięte wszystkie jego
+          rezerwacje!
+        </p>
+      </div>
     </div>
   );
 };

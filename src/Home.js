@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./Home.css";
-import ReservationForm from "./Components/ReservationForm";
 import { AuthContext } from "../src/helpers/AuthContext";
+import ReservationForm from "./Components/ReservationForm";
+import "./Home.css";
 
 let newday = [];
 
@@ -95,23 +95,23 @@ const Home = (props) => {
 
   const addReservationHandler = async (reservation) => {
     let response;
-    if(authState["role"]){
+    if (authState["role"]) {
       response = await fetch("/reservation", {
-      method: "POST",
-      body: JSON.stringify(reservation),
-      headers: {
-        "Content-Type": "application/json",
-        accessToken: sessionStorage.getItem("accessToken"),
-      },
-    });}else{
+        method: "POST",
+        body: JSON.stringify(reservation),
+        headers: {
+          "Content-Type": "application/json",
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      });
+    } else {
       response = await fetch("/reservation/withoutaccount", {
         method: "POST",
         body: JSON.stringify(reservation),
         headers: {
           "Content-Type": "application/json",
-          
         },
-      })
+      });
     }
 
     const json = await response.json();

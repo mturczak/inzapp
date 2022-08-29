@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../helpers/AuthContext";
 import NameInput from "./NameInput";
 import "./ReservationForm.css";
-import { AuthContext } from "../helpers/AuthContext";
 
 import TablesInSelect from "./TablesInSelect";
 
@@ -44,7 +44,7 @@ const ReservationForm = (props) => {
     if (sessionStorage.getItem("id_client")) {
       setIdClientState(sessionStorage.getItem("id_client"));
     }
-    console.log(authState)
+    console.log(authState);
     fetchHours();
   }, []);
 
@@ -121,11 +121,13 @@ const ReservationForm = (props) => {
 
   // console.log(props.tables);
   return (
-    <>{(!authState["role"] || authState["role"] === "admin") &&
-      <NameInput
-        idClientState={idClientState}
-        setIdClientState={setIdClientState}
-      />}
+    <>
+      {(!authState["role"] || authState["role"] === "admin") && (
+        <NameInput
+          idClientState={idClientState}
+          setIdClientState={setIdClientState}
+        />
+      )}
       <form className="formclass" onSubmit={submitHandler}>
         <div className="new-reservation__controls">
           <div className="new-reservation__control">

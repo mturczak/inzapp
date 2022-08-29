@@ -2,8 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AuthLogin from "./Components/AuthLogin";
 import AuthRegister from "./Components/AuthRegister";
+import ClientsPreview from "./Components/ClientsPreview";
 import ReservationPreview from "./Components/ReservationPreviev";
-import ClientsPreview from "./Components/ClientsPreview"
 import { AuthContext } from "./helpers/AuthContext";
 import Home from "./Home";
 import NavBar from "./NavBar/NavBar";
@@ -50,16 +50,14 @@ const App = () => {
             path="/reservations_preview"
             element={<ReservationPreview />}
           />
-          <Route
-            path="/clients_preview"
-            element={<ClientsPreview />}
-          />
+          <Route path="/clients_preview" element={<ClientsPreview />} />
         </Routes>
       </BrowserRouter>
       <footer>
         <p className="footer name">Miłosz Turczak</p>
         <p className="footer praca">
-          <strong>Praca Inżynierska:</strong> Aplikacja webowa wspomagająca pracę restauracji
+          <strong>Praca Inżynierska:</strong> Aplikacja webowa wspomagająca
+          pracę restauracji
         </p>
         <p className="footer role">Role: {authState.role}</p>
       </footer>
