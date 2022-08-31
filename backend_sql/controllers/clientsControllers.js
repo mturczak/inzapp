@@ -118,14 +118,14 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
     let user = await clients.findOne({ where: { email: email } });
     if (!user) {
-      res.json({ error: "User doesn't exists" });
+      res.json({ error: "Użytkownik nie istnieje" });
       console.error("User doesn't exists");
       return;
     }
 
     bcrypt.compare(password, user.password).then((match) => {
       if (!match) {
-        res.json({ error: "Wrong Email and Password combination" });
+        res.json({ error: "Niepoprawny email lub hasło" });
         console.error("Wrong Email and Password combination");
         return;
       }
@@ -165,11 +165,8 @@ const deleteUser = async (req, res, next) => {
       });
       res.status(200).json(response);
       console.log(response);
-    }
-    else {
-      
-      res.status(401).json({error: "Acces denied from clientsControllers"})
-      
+    } else {
+      res.status(401).json({ error: "Acces denied from clientsControllers" });
     }
   } catch (error) {
     console.log(error);

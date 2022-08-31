@@ -31,7 +31,7 @@ const AuthLogin = (props) => {
       alert(json.error);
     } else {
       console.log("logged in", json);
-      alert("logged in");
+      alert("Zalogowano");
       sessionStorage.setItem("accessToken", json.token);
       sessionStorage.setItem("id_clients", json.id_clients);
       sessionStorage.setItem("role", json.role);

@@ -20,7 +20,7 @@ let maxReservationDate = new Date(now.setMonth(now.getMonth() + 1))
 
 const ReservationForm = (props) => {
   const [enteredSize, setEnteredSize] = useState("");
-  const [enteredTable, setEnteredTable] = useState("0");
+  const [enteredTable, setEnteredTable] = useState("");
   const [enteredDate, setEnteredDate] = useState(todaysDate);
   const [enteredTime, setEnteredTime] = useState("");
   const [idClientState, setIdClientState] = useState("");
@@ -40,13 +40,13 @@ const ReservationForm = (props) => {
         setHours(json);
       }
     };
-    console.log(enteredDate);
+    // console.log(enteredDate);
     if (sessionStorage.getItem("id_client")) {
       setIdClientState(sessionStorage.getItem("id_client"));
     }
-    console.log(authState);
+    console.log({ authState });
     fetchHours();
-  }, []);
+  }, [authState, enteredSize, sizeMatchedTables, enteredTable, enteredTime]);
 
   const sizeChangeHandler = (event) => {
     setEnteredSize(event.target.value);
@@ -57,11 +57,27 @@ const ReservationForm = (props) => {
     const newArray = props.tables2.filter((x) => x.size >= temp_size);
 
     setSizeMatchedTables(newArray);
+    console.log({ newArray });
+    newArray[0]
+      ? setEnteredTable(newArray[0].id_tables.toString())
+      : setEnteredTable("");
+    console.log(newArray[0]);
+    if (newArray[0] && newArray[0].freeHours) {
+      for (let i = 0; i < newArray[0].freeHours.length; i++) {
+        if (newArray[0].freeHours[i] !== "busy") {
+          setEnteredTime(i);
+          break;
+        }
+      }
+    }
+
+    // setEnteredTime(newArray[0].freeHours[0]);
   };
 
   const tableChangeHandler = (event) => {
     setEnteredTable(event.target.value);
-    console.log(enteredTable);
+
+    console.log(event.target.value);
   };
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
@@ -69,27 +85,27 @@ const ReservationForm = (props) => {
   };
   const timeChangeHandler = (event) => {
     setEnteredTime(event.target.value);
+    console.log(event.target.value);
   };
   const locationChangeHandler = (event) => {
     setEnteredLocation(event.target.value);
   };
   const test_button = () => {
-    // console.log(enteredSize);
-    // console.log(enteredTable);
-    // console.log(enteredDate);
-    // console.log(enteredTime);
+    console.table({ enteredSize, enteredDate, enteredTable, enteredTime });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
+    if (idClientState === "" && !sessionStorage.getItem("accessToken"))
+      return alert("wprowadz klienta");
     if (
       enteredSize === "" ||
       enteredTable === "" ||
       enteredDate === "" ||
-      enteredTime == ""
+      enteredTime === ""
     )
-      return console.log("nie dozwolone jest pozostawienie pustych pól");
-    // if (idClientState === "") return console.log("wprowadz klienta");
+      return alert("nie dozwolone jest pozostawienie pustych pól");
+
     const reservationData = {
       // id: ++max_id_reservations,
       // size: enteredSize,
@@ -99,20 +115,22 @@ const ReservationForm = (props) => {
       id_hours: enteredTime,
     };
 
-    props.onSaveReservation(reservationData);
+    await props.onSaveReservation(reservationData);
     setEnteredTable("");
     setEnteredSize("");
     setEnteredTime("");
     setEnteredDate("");
-    setEnteredLocation("każde");
+    // setEnteredLocation("każde");
+
+    document.location.reload();
   };
-  let testOption = sizeMatchedTables.map((option, index) => {
-    return (
-      <option key={index} value={option.id}>
-        {option.id}
-      </option>
-    );
-  });
+  // let testOption = sizeMatchedTables.map((option, index) => {
+  //   return (
+  //     <option key={index} value={option.id}>
+  //       {option.id}
+  //     </option>
+  //   );
+  // });
   // console.log(props.tables2);
 
   if (props.tables2 && props.tables2[0] && props.tables2[0].freeHours) {
@@ -148,7 +166,7 @@ const ReservationForm = (props) => {
             <input
               type="number"
               min={1}
-              max={10}
+              max={9}
               value={enteredSize}
               onChange={sizeChangeHandler}
             />
@@ -207,18 +225,23 @@ const ReservationForm = (props) => {
                   </option>
                 );
               })} */}
-              {props.tables2 &&
-                props.tables2[0] &&
-                props.tables2[0].freeHours &&
+              {
+                // props.tables2 &&
+                //   props.tables2[0] &&
+                //   props.tables2[0].freeHours &&
+
                 enteredTable &&
-                props.tables2[enteredTable].freeHours.map((hour, index) => {
-                  if (hour !== "busy")
-                    return (
-                      <option key={index} value={index}>
-                        {hour}
-                      </option>
-                    );
-                })}
+                  props.tables2[enteredTable].freeHours.map((hour, index) => {
+                    if (hour != "busy") {
+                      return (
+                        <option key={index + "r"} value={index}>
+                          {hour}
+                        </option>
+                      );
+                    }
+                    return null;
+                  })
+              }
             </select>
             {/* <input type="time" value={enteredTime} onChange={timeChangeHandler} />s */}
           </div>

@@ -119,12 +119,13 @@ const Home = (props) => {
     console.log(response);
     if (!response.ok) {
       console.error({ response, json });
-      alert("Brak wprowadzonych danych klienta!");
+      alert("Błąd");
 
       // setError(json.error);
       // setEmptyFields(json.emptyFields);
     } else {
       console.log("new reservation added", json);
+      alert("Twój stolik został zarezerwowany!");
     }
   };
 
@@ -142,7 +143,7 @@ const Home = (props) => {
 
       <ReservationForm
         setDateToArray={setDateToArray}
-        tables={example_tables_2}
+        // tables={example_tables_2}
         tables2={newdayWithoutReservations}
         onSaveReservation={addReservationHandler}
       />

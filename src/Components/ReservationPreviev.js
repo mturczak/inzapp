@@ -1,6 +1,7 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
+import { AuthContext } from "../helpers/AuthContext";
 import "../Home.css";
 import "./ReservationPreview.css";
 
@@ -8,6 +9,7 @@ const ReservationPreview = (props) => {
   const [allReservations, setAllReservations] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
+  const { authState } = useContext(AuthContext);
 
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
@@ -154,22 +156,23 @@ const ReservationPreview = (props) => {
     },
   };
   const columns = [
-    {
-      name: "ID Rezerwacji",
+    authState.role === "admin" && {
+      name: "ID",
       selector: (row) => row.id_reservation,
       sortable: true,
-      width: "5%",
+      width: "68px",
     },
     {
       name: "Data Rezerwacji",
       selector: (row) => row.date,
       format: (row) => moment(row.date).format("ll"),
       sortable: true,
+      width: "170px",
     },
     {
       name: "Godzina",
       selector: (row) => row.Hour,
-      width: "6%",
+      width: "92px",
     },
     {
       name: "Klient",
@@ -177,37 +180,38 @@ const ReservationPreview = (props) => {
       sortable: true,
     },
     {
-      name: "phone",
+      name: "Telefon",
       selector: (row) => row.phone,
     },
     {
-      name: "mail",
+      name: "Email",
       selector: (row) => row.email,
     },
     {
       name: "Stolik",
       selector: (row) => row.TableName,
-      width: "6%",
+      width: "100px",
     },
 
     {
       name: "Lokalizacja",
       selector: (row) => row.TableLocation,
-      width: "6%",
+      width: "120px",
     },
     {
       name: "Utworzono",
       selector: (row) => row.created_at,
       format: (row) => moment(row.created_at).locale("pl").format("lll"),
       sortable: true,
+      width: "190px",
     },
-    {
-      name: "Edytowano",
-      selector: (row) => row.updated_at,
-      format: (row) => moment(row.updated_at).format("lll"),
+    // {
+    //   name: "Edytowano",
+    //   selector: (row) => row.updated_at,
+    //   format: (row) => moment(row.updated_at).format("lll"),
 
-      sortable: true,
-    },
+    //   sortable: true,
+    // },
   ];
   const columns2 = [
     {
@@ -227,11 +231,11 @@ const ReservationPreview = (props) => {
       renderCell: (row) => row.name,
     },
     {
-      label: "phone",
+      label: "Telefon",
       renderCell: (row) => row.phone,
     },
     {
-      label: "mail",
+      label: "Email",
       renderCell: (row) => row.email,
     },
     {
