@@ -1,4 +1,6 @@
+import { ErrorMessage } from "@hookform/error-message";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 const AuthRegister = (props) => {
@@ -6,6 +8,26 @@ const AuthRegister = (props) => {
   const [enteredPhone, setEnteredPhone] = useState("");
   const [enteredMail, setEnteredMail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm({
+    criteriaMode: "all",
+  });
+
+  const messagesFunction = ({ messages }) => {
+    console.log("messages", messages);
+    return messages
+      ? Object.entries(messages).map(([type, message]) => (
+          <span className="error" key={type}>
+            {message}
+          </span>
+        ))
+      : null;
+  };
+
   let navigate = useNavigate();
   const nameChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -20,15 +42,15 @@ const AuthRegister = (props) => {
     setEnteredPassword(event.target.value);
   };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
+    // event.preventDefault();
     const response = await fetch("/reservation/createuser", {
       method: "POST",
       body: JSON.stringify({
-        email: enteredMail,
-        name: enteredName,
-        phone: enteredPhone,
-        password: enteredPassword,
+        email: data.enteredMail,
+        name: data.enteredName,
+        phone: data.enteredPhone,
+        password: data.enteredPassword,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -44,6 +66,8 @@ const AuthRegister = (props) => {
       console.log("registered in", json);
       window.alert("Konto zarejestrowane pomyślnie.");
 
+      reset();
+
       navigate("/authlogin");
     }
   };
@@ -51,7 +75,11 @@ const AuthRegister = (props) => {
   return (
     <>
       <div className="Auth-form-container">
-        <form id={"AuthRegisterForm"} className="Auth-form" onSubmit={onSubmit}>
+        <form
+          id={"AuthRegisterForm"}
+          className="Auth-form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Rejestracja</h3>
             <div className="text-center">
@@ -68,7 +96,26 @@ const AuthRegister = (props) => {
                 type="text"
                 className="form-control mt-1"
                 placeholder="np. Jan Kowalski"
-                onChange={nameChangeHandler}
+                // onChange={nameChangeHandler}
+                {...register("enteredName", {
+                  required: {
+                    value: true,
+                    message: "Wprowadź imię i nazwisko",
+                  },
+                  minLength: {
+                    value: 4,
+                    message: "Wprowadź conajmniej 4 znaki",
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "Wprowadź krótsze imię o nazwisko",
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="enteredName"
+                render={messagesFunction}
               />
             </div>
             <div className="form-group mt-3">
@@ -77,7 +124,26 @@ const AuthRegister = (props) => {
                 type="text"
                 className="form-control mt-1"
                 placeholder="adres email"
-                onChange={mailChangeHandler}
+                // onChange={mailChangeHandler}
+                {...register("enteredMail", {
+                  required: {
+                    value: true,
+                    message: "Wprowadź adres email",
+                  },
+                  minLength: {
+                    value: 4,
+                    message: "Wprowadź conajmniej 4 znaki",
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "Wprowadź krótszy adres email",
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="enteredMail"
+                render={messagesFunction}
               />
             </div>
             <div className="form-group mt-3">
@@ -86,7 +152,22 @@ const AuthRegister = (props) => {
                 type="phone"
                 className="form-control mt-1"
                 placeholder="numer telefonu"
-                onChange={phoneChangeHandler}
+                // onChange={phoneChangeHandler}
+                {...register("enteredPhone", {
+                  required: {
+                    value: true,
+                    message: "Wprowadź numer telefonu",
+                  },
+                  pattern: {
+                    value: /^\+?[1-9][0-9]{7,14}$/,
+                    message: "Wprowadź poprawny numer telefonu.",
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="enteredPhone"
+                render={messagesFunction}
               />
             </div>
             <div className="form-group mt-3">
@@ -95,11 +176,34 @@ const AuthRegister = (props) => {
                 type="password"
                 className="form-control mt-1"
                 placeholder="hasło"
-                onChange={passwordChangeHandler}
+                // onChange={passwordChangeHandler}
+                {...register("enteredPassword", {
+                  required: {
+                    value: true,
+                    message: "Wprowadź hasło",
+                  },
+                  minLength: {
+                    value: 4,
+                    message: "Wprowadź conajmniej 4 znaki",
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "Wprowadź krótsze hasło",
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="enteredPassword"
+                render={messagesFunction}
               />
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button onClick={onSubmit} className="btn btn-secondary">
+              <button
+                type="submit"
+                className="btn btn-secondary"
+                onClick={handleSubmit(onSubmit)}
+              >
                 Potwierdź
               </button>
             </div>

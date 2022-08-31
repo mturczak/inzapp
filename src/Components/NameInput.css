@@ -8,18 +8,17 @@
   text-align: center;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
   text-align: left;
-  
+
   flex-wrap: wrap;
 }
 
 label {
-  
   text-align: left;
   margin-bottom: 0.5rem;
   display: block;
 }
 
-    Field {
+Field {
   font: inherit;
   padding: 0.5rem;
   border-radius: 6px;
@@ -29,31 +28,45 @@ label {
 }
 
 .button {
-    width: 100%;
-    font: inherit;
-    padding: 0.5rem 1.5rem;
-    margin-right: 0.5rem;
-    border: 1px solid #8b005d;
-    border-radius: 0.5rem;
-    color: white;
-    background: #8b005d;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
-    cursor: pointer;
+  width: 100%;
+  font: inherit;
+  padding: 0.5rem 1.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid #8b005d;
+  border-radius: 0.5rem;
+  color: white;
+  background: #8b005d;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:hover,
+.button:active {
+  background: #ac0e77;
+  border-color: #ac0e77;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+}
+
+.error {
+  color: black;
+  background-color: rgb(255, 136, 115);
+  font-size: medium;
+  font-weight: 500;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 5px;
+  display: block;
+
+  border-radius: 5px;
+  opacity: 0.75;
+}
+
+@media (min-width: 768px) {
+  .button {
+    width: auto;
   }
-  
-  .button:focus {
-    outline: none;
-  }
-  
-  .button:hover,
-  .button:active {
-    background: #ac0e77;
-    border-color: #ac0e77;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
-  }
-  
-  @media (min-width: 768px) {
-    .button {
-      width: auto;
-    }
-  }
+}

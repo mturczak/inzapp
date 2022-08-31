@@ -35,7 +35,6 @@ const getAllReservationsWithInfo = async (req, res, next) => {
       return res.status(401).json({ error: "User is not logged in" });
     }
   } catch (error) {
-    console.log("role", role, "id", id);
     console.log(error);
     next(error);
   }
@@ -105,7 +104,9 @@ const createNewReservation = async (req, res, next) => {
   try {
     let { date, id_tables, id_hours } = req.body;
     let id_clients;
-    if (req.user) {
+    if (req.user && req.user.role === "admin") {
+      id_clients = req.body.id_clients;
+    } else if (req.user) {
       id_clients = req.user.id_clients;
     } else {
       id_clients = req.body.id_clients;

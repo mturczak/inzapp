@@ -18,10 +18,13 @@ const NameInput = (props) => {
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required().min(3, "za krótkie").max(30, "za długie"),
+    name: Yup.string()
+      .required("Wprowadź imię i nazwisko")
+      .min(3, "za krótkie")
+      .max(30, "za długie"),
     phone: Yup.string()
-      .required("wprowadź numer telefonu")
-      .matches(phoneRegExp, "wprowadz poprawny numer telefonu"),
+      .required("Wprowadź numer telefonu")
+      .matches(phoneRegExp, "Wprowadź poprawny numer telefonu"),
     // email: Yup.string().email().required("wprowadź email"),
   });
 
@@ -45,7 +48,7 @@ const NameInput = (props) => {
     const nameInputData = {
       name: name,
       phone: phone,
-      email: authState.accessToken ? enteredMail : null,
+      email: null,
     };
     // const nameInputData = {
     //   name: enteredName,
@@ -110,11 +113,7 @@ const NameInput = (props) => {
             <div className="new-reservation__controls">
               <div className="new-reservation__control">
                 <label>Imię i Nazwisko</label>
-                <ErrorMessage
-                  name="name"
-                  component="div"
-                  className="alert alert-warning"
-                />
+                <ErrorMessage name="name" component="div" className="error" />
                 <Field
                   id="name"
                   name="name"
@@ -126,11 +125,7 @@ const NameInput = (props) => {
               </div>
               <div className="new-reservation__control">
                 <label> Numer telefonu</label>
-                <ErrorMessage
-                  name="phone"
-                  component="div"
-                  className="alert alert-warning"
-                />
+                <ErrorMessage name="phone" component="div" className="error" />
                 <Field
                   id="phone"
                   name="phone"
